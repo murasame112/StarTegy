@@ -50,3 +50,31 @@ export function getStrategyById(req: Request, res: Response) {
 			res.send(strategy);
 	});
 }
+
+export function postTestStrategy(req: Request, res: Response) {
+	const step1 = new Step('12', 'Spawning pool');
+	const step2 = new Step('11', 'Assimilator', '0:45');
+	const steps = [step1, step2];
+	const bo = new BuildOrder(1, steps);
+	const content = new Content(bo);
+	const strat = new Strategy(
+			Race.zerg,
+			'aaaaTEST STRAT 12/11',
+			['ZvZ'],
+			'murasame',
+			'murasame',
+			Type.build_notes,
+			BuildType.cheese,
+			[],
+			content
+	);
+
+	const result = mongoClient.insertItem(strat, collection_name);
+	result.then((value: any) => {
+			if (value.acknowledged) {
+					res.status(201).send(value.insertedId);
+			} else {
+					res.status(400).send('Error');
+			}
+	});
+}
