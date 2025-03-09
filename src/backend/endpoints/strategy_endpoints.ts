@@ -78,3 +78,28 @@ export function postTestStrategy(req: Request, res: Response) {
 			}
 	});
 }
+
+export function insertStrategy(req: Request, res: Response) {
+	const bd = req.body;
+
+	const strategy: Strategy = new Strategy(
+			bd.race,
+			bd.title,
+			bd.matchup,
+			bd.author,
+			bd.uploaded_by,
+			bd.type,
+			bd.build_type,
+			bd.tags,
+			bd.content
+	);
+
+	const result = mongoClient.insertItem(strategy, collection_name);
+	result.then((value: any) => {
+			if (value.acknowledged) {
+					res.status(201).send(value.insertedId);
+			} else {
+					res.status(400).send('Error');
+			}
+	});
+}
