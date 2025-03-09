@@ -103,3 +103,15 @@ export function insertStrategy(req: Request, res: Response) {
 			}
 	});
 }
+
+export function deleteStrategy(req: Request, res: Response) {
+	const id = new ObjectId(req.params.id);
+	const result = mongoClient.deleteItemById(id, collection_name);
+	result.then((value: any) => {
+			if (value.acknowledged) {
+					res.status(204).send('Deleted count: ' + value.deletedCount);
+			} else {
+					res.status(400).send('Error');
+			}
+	});
+}
