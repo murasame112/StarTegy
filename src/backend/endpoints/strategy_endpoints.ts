@@ -22,3 +22,31 @@ export function getAllStrategies(req: Request, res: Response) {
         res.status(200).send(value);
     });
 }
+
+export function getStrategyById(req: Request, res: Response) {
+	const id = req.params.id;
+	const result = mongoClient.getItemById(id, collection_name);
+
+	let strategy: Strategy;
+
+	result.then((value: any) => {
+			if (value === null) {
+					res.send(null);
+					return;
+			}
+			strategy = new Strategy(
+					value.race,
+					value.title,
+					value.matchup,
+					value.author,
+					value.uploaded_by,
+					value.type,
+					value.build_type,
+					value.tags,
+					value.content,
+					value.date,
+					value._id
+			);
+			res.send(strategy);
+	});
+}
