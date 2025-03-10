@@ -1,0 +1,27 @@
+.footer {
+	background-color: var(--purple_ls);
+	color: var(--text);
+	height: 3vh;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	height: 100%;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+	width: -moz-fit-content;
+	width: fit-content;
+	display: inline-block;
+
+	font-size: 19px;
+}
