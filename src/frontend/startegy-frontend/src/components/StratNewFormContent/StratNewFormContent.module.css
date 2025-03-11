@@ -1,0 +1,79 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+.note {
+    display: flex;
+    flex-wrap: wrap;
+    width: 600px;
+    border: 2px solid var(--light_green_ls);
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.note * {
+    margin-top: 2px;
+}
+
+.title {
+    width: 100px;
+}
+
+.priority {
+    width: 15px;
+    text-align: center;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.content {
+    width: 100%;
+}
+
+.remove {
+    border: 1px solid var(--dark_green_ls);
+    color: var(--light_green_hs);
+    background-color: var(--green_ls);
+}
+
+.buildOrder {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+		margin-top: 15px;
+}
+
+.buildOrder div,
+.buildOrder textarea {
+    width: 400px;
+    height: 550px;
+		color: var(--light_green_hs);
+    border: 1px solid var(--light_green_ls);
+    border-radius: 25px;
+    resize: none;
+		padding-left: 15px;
+    padding-top: 15px;
+}
+
+.buildContent {
+
+}
+
+.buildParsed {
+		background-color: var(--dark_green_ls);
+    margin-left: 5px;
+		text-align: left;
+}
+
+.buildParsed ul{
+	list-style-type: none; 
+}
