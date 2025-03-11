@@ -93,59 +93,75 @@ function StratNewFormMeta({ sendFormData }: any) {
 
     return (
         <>
+				<div className={styles.creationForm}>
             <div>
                 <input
                     type='text'
                     placeholder='Title'
+										className={styles.textInput}
                     onChange={updateTitle}
                 ></input>
             </div>
-            <div className={styles.creationForm}>
-                <select value={race} onChange={updateRace}>
-                    {raceKeys.map((key: string, index: number) => (
-                        <option
-                            key={index}
-                            value={Race[key as keyof typeof Race]}
-                        >
-                            {Race[key as keyof typeof Race]}
-                        </option>
-                    ))}
-                </select>
-
-                <select value={matchup} onChange={updateMatchup}>
-                    {matchupKeys.map((key: string, index: number) => (
-                        <option key={index} value={key}>
-                            {Matchup[key as keyof typeof Matchup]}
-                        </option>
-                    ))}
-                </select>
-
+							
+						
+            <div>
+								<div className={styles.labelDiv}>
+									<label>Race:</label>
+									<select className={styles.selectInput} name="race" value={race} onChange={updateRace}>
+											{raceKeys.map((key: string, index: number) => (
+													<option
+															key={index}
+															value={Race[key as keyof typeof Race]}
+													>
+															{Race[key as keyof typeof Race]}
+													</option>
+											))}
+									</select>
+								</div>
+								<div className={styles.labelDiv}>
+									<label>Matchup:</label>
+									<select className={styles.selectInput} value={matchup} onChange={updateMatchup}>
+											{matchupKeys.map((key: string, index: number) => (
+													<option key={index} value={key}>
+															{Matchup[key as keyof typeof Matchup]}
+													</option>
+											))}
+									</select>
+								</div>
+						</div>
                 <div>
                     <input
                         type='text'
                         placeholder='Author'
+												className={styles.textInput + " " + styles.info}
                         onChange={updateAuthor}
                     ></input>{' '}
                     <p className={styles.info} title='Can leave "unknown"'>
                         &#8520;
                     </p>
                 </div>
-
-                <select value={type} onChange={updateType}>
-                    {typeKeys.map((key: string, index: number) => (
-                        <option key={index} value={key}>
-                            {Type[key as keyof typeof Type]}
-                        </option>
-                    ))}
-                </select>
-
-                <select value={buildType} onChange={updateBuildType}>
-                    {buildTypeKeys.map((key: string, index: number) => (
-                        <option key={index} value={key}>
-                            {BuildType[key as keyof typeof BuildType]}
-                        </option>
-                    ))}
-                </select>
+								<div>
+									<div className={styles.labelDiv}>
+										<label>Stratey type:</label>
+										<select className={styles.selectInput} value={type} onChange={updateType}>
+												{typeKeys.map((key: string, index: number) => (
+														<option key={index} value={key}>
+																{Type[key as keyof typeof Type]}
+														</option>
+												))}
+										</select>
+									</div>
+									<div className={styles.labelDiv}>
+										<label>Build type:</label>
+										<select className={styles.selectInput} value={buildType} onChange={updateBuildType}>
+												{buildTypeKeys.map((key: string, index: number) => (
+														<option key={index} value={key}>
+																{BuildType[key as keyof typeof BuildType]}
+														</option>
+												))}
+										</select>
+									</div>
+								</div>
                 <button onClick={submitForm}>send</button>
 								<button onClick={cl}>cl</button>
             </div>
