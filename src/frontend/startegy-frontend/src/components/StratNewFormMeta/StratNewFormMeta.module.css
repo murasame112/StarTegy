@@ -43,3 +43,12 @@
 	font-size:20px;
 }
 
+.infoInput{
+	position: relative;
+}
+
+.info{
+	position: absolute;
+	margin-left:520px;
+	margin-top:8px;
+}
