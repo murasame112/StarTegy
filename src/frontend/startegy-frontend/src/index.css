@@ -42,7 +42,8 @@
 }
 
 .card {
-	width: 65%;
+	width: 55%;
+	min-width:800px;
 	border-radius: 25px;
 	margin-top:10%;
 	padding-top:20px;
