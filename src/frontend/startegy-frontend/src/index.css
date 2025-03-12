@@ -42,10 +42,9 @@
 }
 
 .card {
-	width: 80%;
-	height: 80%;
+	width: 65%;
 	border-radius: 25px;
-	margin-top:20px;
+	margin-top:10%;
 	padding-top:20px;
 	background:
         linear-gradient(
@@ -96,8 +95,21 @@ textarea {
 }
 
 
-input, textarea, select{
+input, textarea, select, button{
 border: 1px solid var(--dark_green_ls);
 color: var(--light_green_hs);
 background-color: var(--green_ls);
+}
+
+
+.buttonPrimary{
+	width:100px;
+	height:30px;
+	border-radius: 25px;
+	font-size:20px;
+}
+
+.buttonPrimary:hover{
+	color:var(--light_green_ls);
+	background-color: var(--dark_green_ls);
 }

@@ -3,9 +3,10 @@ import { Race } from '../../enums/race_enum';
 import { Matchup } from '../../enums/matchup_enum';
 import { Type } from '../../enums/type_enum';
 import { FormData } from '../StratNew/StratNew';
+import { BuildType } from '../../enums/build_type_enum';
 
 import styles from './StratNewFormMeta.module.css';
-import { BuildType } from '../../enums/build_type_enum';
+
 
 function StratNewFormMeta({ sendFormData }: any) {
     const [title, setTitle] = useState<string>('');
@@ -142,7 +143,7 @@ function StratNewFormMeta({ sendFormData }: any) {
                 </div>
 								<div>
 									<div className={styles.labelDiv}>
-										<label>Stratey type:</label>
+										<label>Strategy type:</label>
 										<select className={styles.selectInput} value={type} onChange={updateType}>
 												{typeKeys.map((key: string, index: number) => (
 														<option key={index} value={key}>
@@ -162,8 +163,10 @@ function StratNewFormMeta({ sendFormData }: any) {
 										</select>
 									</div>
 								</div>
-                <button onClick={submitForm}>send</button>
-								<button onClick={cl}>cl</button>
+								<div>
+									<button className='buttonPrimary' onClick={submitForm}>send</button>
+								</div>
+                
             </div>
         </>
     );

@@ -48,7 +48,7 @@ function StratNew() {
     return (
         <>
             <div className={stylesBlank.blank}>
-						<div className='card'>
+							<div className='card'>
                 {formMetaFlag ? (
                     <div>
                         <StratNewFormMeta sendFormData={handleFormMetaData} />
@@ -71,10 +71,9 @@ function StratNew() {
                 ) : (
                     <></>
                 )}
-								</div>
+							</div>
             </div>
 
-            <button onClick={cl}>console log</button>
         </>
     );
 }
