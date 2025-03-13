@@ -166,53 +166,58 @@ function StratNewFormContent(props: FormData) {
                         </div>
                     )}
 
-                    <button onClick={() => addNote()}>Add new note</button>
-                    <button onClick={removeLastNote}>Remove last note</button>
+										<div className={styles.section}>
+											<button className='buttonPrimary' onClick={() => addNote()}>Add new note</button>
+											<button className='buttonPrimary' onClick={removeLastNote}>Remove last note</button>
+										</div>
+
                     
                     
+										<div className={styles.section}>
+											{notes.map((note: Notes, index: number) => {
+													return (
+															<div key={index} className={styles.note}>
+																	<input
+																			className={styles.title}
+																			type='text'
+																			onChange={(event) =>
+																					updateTitle(note.priority, event)
+																			}
+																			value={note.note_title}
+																	></input>
 
-                    {notes.map((note: Notes, index: number) => {
-                        return (
-                            <div key={index} className={styles.note}>
-                                <input
-                                    className={styles.title}
-                                    type='text'
-                                    onChange={(event) =>
-                                        updateTitle(note.priority, event)
-                                    }
-                                    value={note.note_title}
-                                ></input>
+																	<input
+																			className={styles.priority}
+																			type='number'
+																			onChange={(event) =>
+																					updatePriority(note.priority, event)
+																			}
+																			value={note.priority}
+																	></input>
 
-                                <input
-                                    className={styles.priority}
-                                    type='number'
-                                    onChange={(event) =>
-                                        updatePriority(note.priority, event)
-                                    }
-                                    value={note.priority}
-                                ></input>
+																	<button
+																			className={styles.remove}
+																			onClick={() => removeNote(note.priority)}
+																	>
+																			X
+																	</button>
 
-                                <button
-                                    className={styles.remove}
-                                    onClick={() => removeNote(note.priority)}
-                                >
-                                    X
-                                </button>
-
-                                <textarea
-                                    className={styles.content}
-                                    onChange={(event) =>
-                                        updateContent(note.priority, event)
-                                    }
-                                    value={note.note_content}
-                                ></textarea>
-                            </div>
-                        );
-                    })}
-                    <br />
+																	<textarea
+																			className={styles.content}
+																			onChange={(event) =>
+																					updateContent(note.priority, event)
+																			}
+																			value={note.note_content}
+																	></textarea>
+															</div>
+													);
+											})}
+										</div>
                 </div>
             )}
-						<button onClick={clog}>cl</button>
+						<div className={styles.section}>
+							<button onClick={clog}>cl</button>
+						</div>
         </>
     );
 }

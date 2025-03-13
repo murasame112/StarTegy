@@ -41,7 +41,7 @@ input[type='number'] {
 .note {
     display: flex;
     flex-wrap: wrap;
-    width: 600px;
+    width: 100%;
     border: 2px solid var(--light_green_ls);
     margin-top: 5px;
     align-items: center;
@@ -50,6 +50,10 @@ input[type='number'] {
 
 .note * {
     margin-top: 2px;
+}
+
+.note > textarea{
+	resize: vertical;
 }
 
 .title {
@@ -125,3 +129,6 @@ input[type='number'] {
 	list-style-type: none; 
 }
 
+.section{
+	margin-top: 15px;
+}
