@@ -7,7 +7,6 @@ import { BuildType } from '../../enums/build_type_enum';
 import StratNewFormMeta from '../StratNewFormMeta/StratNewFormMeta';
 import StratNewFormContent from '../StratNewFormContent/StratNewFormContent';
 
-import stylesDefault from '../../index.css';
 import stylesBlank from '../Blank/Blank.module.css';
 
 export type FormData = {

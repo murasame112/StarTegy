@@ -80,7 +80,7 @@ input[type='number'] {
 		margin-top: 15px;
 }
 
-.buildOrder div,
+.buildOrder > div,
 .buildOrder textarea {
     width: 400px;
     height: 550px;
@@ -92,8 +92,27 @@ input[type='number'] {
     padding-top: 15px;
 }
 
-.buildContent {
+.buildOrder textarea {
+	font-size:18px;
+}
 
+.buildContent {
+		margin: 0;
+		padding: 0;
+		width:100%;
+}
+
+.buildContent p,
+.buildContentInfo{
+	color: var(--light_green_hs);
+	font-size:18px;
+	word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.buildContentInfo{
+	color:var(--light_green_ls) !important;
 }
 
 .buildParsed {

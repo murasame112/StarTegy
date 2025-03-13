@@ -9,9 +9,6 @@ import { Type } from '../../enums/type_enum';
 
 import styles from './StratNewFormContent.module.css';
 
-//TODO: generate everything based on formData
-//TODO: check if it creates proper strategy object
-//TODO: send to database
 
 function StratNewFormContent(props: FormData) {
     const [showDiv, setShowDiv] = useState(false);
@@ -22,6 +19,7 @@ function StratNewFormContent(props: FormData) {
         const buildString: string = event.target.value;
         const steps: Step[] = parseBuild(buildString);
         setParsedBuild(steps);
+				console.log(steps);
     };
 
     const executeMe = () => {
@@ -118,23 +116,25 @@ function StratNewFormContent(props: FormData) {
             ) : (
                 <div className={styles.buildOrder}>
                     <textarea
-                        className={styles.buildContent}
                         placeholder='Paste your build order here!'
                         onChange={parse}
                         spellCheck='false'
                     ></textarea>
 
                     <div className={styles.buildParsed}>
-                        <ul>
+											{parsedBuild.length === 0 ? (<p className={styles.buildContentInfo}>You'll see slightly formatted build order here</p>) : ''}
+                        <ul className={styles.buildContent}>
                             {parsedBuild.map((step: Step) => {
                                 return (
+																	<>
                                     <li key={step.t1 + '_' + step.step}>
-                                        <pre>
-                                            {step.t1} {step.t2 ? step.t2 : ''}{' '}
+																			<p>
+                                            {step.t1}{step.t2 ? ' ' + step.t2 : ''}{' '}
                                             {step.t1 === '' ? ' ' : '-'}{' '}
                                             {step.step}
-                                        </pre>
+																			</p>
                                     </li>
+																	</>
                                 );
                             })}
                         </ul>

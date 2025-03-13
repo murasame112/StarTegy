@@ -82,7 +82,8 @@ h5,
 h6,
 p,
 input,
-textarea {
+textarea,
+li {
 	font-family: jura-regular;
 }
 
