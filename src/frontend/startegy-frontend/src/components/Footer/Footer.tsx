@@ -4,7 +4,7 @@ function Footer() {
     return (
         <div className={styles.footer}>
             <div className={styles.content}>
-                <p>Web Design by Tomasz Więsek, 2024</p>
+                <p>Web Design by Tomasz Więsek, 2024-2025</p>
             </div>
         </div>
     );
