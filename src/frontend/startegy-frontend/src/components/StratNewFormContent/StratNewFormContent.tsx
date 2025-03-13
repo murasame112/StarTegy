@@ -12,7 +12,11 @@ import styles from './StratNewFormContent.module.css';
 
 function StratNewFormContent(props: FormData) {
     const [showDiv, setShowDiv] = useState(false);
-    const [notes, setNotes] = useState<Notes[]>([]);
+    const [notes, setNotes] = useState<Notes[]>([new Notes(
+			0,
+			'Note ' + 0,
+			'This is a note'
+	)]);
     const [parsedBuild, setParsedBuild] = useState<Step[]>([]);
 
     const parse = (event: any) => {
@@ -36,12 +40,20 @@ function StratNewFormContent(props: FormData) {
     };
 
     const removeLastNote = () => {
+			if(notes.length <= 1){
+				alert("Can't delete the last note");
+				return false;
+			}
         const temp = [...notes];
         temp.splice(notes.length - 1, 1);
         setNotes(temp);
     };
 
     const removeNote = (index: number) => {
+				if(notes.length <= 1){
+					alert("Can't delete the last note");
+					return false;
+				}
         setNotes(
             notes
                 .filter((item) => item.priority !== index)
@@ -146,8 +158,8 @@ function StratNewFormContent(props: FormData) {
                 <></>
             ) : (
                 <div>
-                    <button onClick={executeMe}>display/hide textarea</button>
-                    <br />
+                    {/* <button onClick={executeMe}>display/hide textarea</button> */}
+                    
                     {showDiv && (
                         <div>
                             <textarea></textarea>
@@ -156,7 +168,7 @@ function StratNewFormContent(props: FormData) {
 
                     <button onClick={() => addNote()}>Add new note</button>
                     <button onClick={removeLastNote}>Remove last note</button>
-                    <br />
+                    
                     
 
                     {notes.map((note: Notes, index: number) => {
