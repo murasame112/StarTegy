@@ -105,6 +105,14 @@ function StratNewFormContent(props: FormData) {
 
     return (
         <>
+					<div className={styles.summary}>
+						<p className={styles.summaryTitle}>{props.title} - {props.matchup}</p><br/>
+						<div className={styles.summaryAdditional}>
+							<p>{props.author}</p> 
+							<p>{props.buildType}</p>
+						</div>
+						
+					</div>
             {props.type == Type.notes ? (
                 <></>
             ) : (
