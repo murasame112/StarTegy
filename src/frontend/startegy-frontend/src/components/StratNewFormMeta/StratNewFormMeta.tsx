@@ -61,8 +61,7 @@ function StratNewFormMeta({ sendFormData }: any) {
     };
 
     const updateType = (event: any) => {
-        console.log(event.target.value);
-        setType(Type[event.target.value as keyof typeof Type]);
+      setType(Type[event.target.value as keyof typeof Type]);
     };
 
     const updateBuildType = (event: any) => {
@@ -149,7 +148,7 @@ function StratNewFormMeta({ sendFormData }: any) {
                         <label>Strategy type:</label>
                         <select
                             className={styles.selectInput}
-                            value={type}
+                            value={getEnumKey(type)}
                             onChange={updateType}
                         >
                             {typeKeys.map((key: string, index: number) => (
@@ -163,7 +162,7 @@ function StratNewFormMeta({ sendFormData }: any) {
                         <label>Build type:</label>
                         <select
                             className={styles.selectInput}
-                            value={getEnumKey(type)}
+                            value={buildType}
                             onChange={updateBuildType}
                         >
                             {buildTypeKeys.map((key: string, index: number) => (
