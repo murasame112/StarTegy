@@ -1,22 +1,22 @@
 import { useState } from 'react';
 
 import { FormData } from '../StratNew/StratNew';
-import {	Strategy, Notes, Content, BuildOrder, Step } from '../../models/strategy_model';
-
+import {
+    Strategy,
+    Notes,
+    Content,
+    BuildOrder,
+    Step,
+} from '../../models/strategy_model';
 import { parseBuild } from '../../scripts/build_parser';
-
 import { Type } from '../../enums/type_enum';
 
 import styles from './StratNewFormContent.module.css';
 
-
 function StratNewFormContent(props: FormData) {
-    const [showDiv, setShowDiv] = useState(false);
-    const [notes, setNotes] = useState<Notes[]>([new Notes(
-			1,
-			'Note ' + 1,
-			'This is a note'
-	)]);
+    const [notes, setNotes] = useState<Notes[]>([
+        new Notes(1, 'Note ' + 1, 'This is a note'),
+    ]);
     const [parsedBuild, setParsedBuild] = useState<Step[]>([]);
 
     const parse = (event: any) => {
@@ -35,20 +35,20 @@ function StratNewFormContent(props: FormData) {
     };
 
     const removeLastNote = () => {
-			if(notes.length <= 1){
-				alert("Can't delete the last note");
-				return false;
-			}
+        if (notes.length <= 1) {
+            alert("Can't delete the last note");
+            return false;
+        }
         const temp = [...notes];
         temp.splice(notes.length - 1, 1);
         setNotes(temp);
     };
 
     const removeNote = (index: number) => {
-				if(notes.length <= 1){
-					alert("Can't delete the last note");
-					return false;
-				}
+        if (notes.length <= 1) {
+            alert("Can't delete the last note");
+            return false;
+        }
         setNotes(
             notes
                 .filter((item) => item.priority !== index)
@@ -104,41 +104,45 @@ function StratNewFormContent(props: FormData) {
     };
 
     const clog = () => {
-			const buildOrder: BuildOrder = {
-				priority: 0,
-				steps: parsedBuild
-			};			
+        const buildOrder: BuildOrder = {
+            priority: 0,
+            steps: parsedBuild,
+        };
 
-			const content: Content = {
-				...((props.type === Type.build || props.type === Type.build_notes ) && { build_order: buildOrder }),
-				...((props.type === Type.notes || props.type === Type.build_notes ) && { notes: notes })
-			
-			};
+        const content: Content = {
+            ...((props.type === Type.build ||
+                props.type === Type.build_notes) && {
+                build_order: buildOrder,
+            }),
+            ...((props.type === Type.notes ||
+                props.type === Type.build_notes) && { notes: notes }),
+        };
 
-			const strat: Strategy = {
-				race: props.race,
-				title: props.title,
-				matchup: [props.matchup],
-				author: props.author,
-				uploaded_by: "current_user", //TODO: tu current usera powinno pobierac
-				type: props.type,
-				build_type: props.buildType,
-				tags: [],
-				content: content
-			};
-        console.log(strat);
+        const strat: Strategy = {
+            race: props.race,
+            title: props.title,
+            matchup: [props.matchup],
+            author: props.author,
+            uploaded_by: 'current_user', //TODO: tu current usera powinno pobierac
+            type: props.type,
+            build_type: props.buildType,
+            tags: [],
+            content: content,
+        };
     };
 
     return (
         <>
-					<div className={styles.summary}>
-						<p className={styles.summaryTitle}>{props.title} - {props.matchup}</p><br/>
-						<div className={styles.summaryAdditional}>
-							<p>{props.author}</p> 
-							<p>{props.buildType}</p>
-						</div>
-						
-					</div>
+            <div className={styles.summary}>
+                <p className={styles.summaryTitle}>
+                    {props.title} - {props.matchup}
+                </p>
+                <br />
+                <div className={styles.summaryAdditional}>
+                    <p>{props.author}</p>
+                    <p>{props.buildType}</p>
+                </div>
+            </div>
             {props.type == Type.notes ? (
                 <></>
             ) : (
@@ -150,19 +154,28 @@ function StratNewFormContent(props: FormData) {
                     ></textarea>
 
                     <div className={styles.buildParsed}>
-											{parsedBuild.length === 0 ? (<p className={styles.buildContentInfo}>You'll see slightly formatted build order here</p>) : ''}
+                        {parsedBuild.length === 0 ? (
+                            <p className={styles.buildContentInfo}>
+                                You'll see slightly formatted build order here
+                            </p>
+                        ) : (
+                            ''
+                        )}
                         <ul className={styles.buildContent}>
                             {parsedBuild.map((step: Step) => {
                                 return (
-																	<>
-                                    <li key={step.t1 + '_' + step.step}>
-																			<p>
-                                            {step.t1}{step.t2 ? ' ' + step.t2 : ''}{' '}
-                                            {step.t1 === '' ? ' ' : '-'}{' '}
-                                            {step.step}
-																			</p>
-                                    </li>
-																	</>
+                                    <>
+                                        <li key={step.t1 + '_' + step.step}>
+                                            <p>
+                                                {step.t1}
+                                                {step.t2
+                                                    ? ' ' + step.t2
+                                                    : ''}{' '}
+                                                {step.t1 === '' ? ' ' : '-'}{' '}
+                                                {step.step}
+                                            </p>
+                                        </li>
+                                    </>
                                 );
                             })}
                         </ul>
@@ -174,91 +187,72 @@ function StratNewFormContent(props: FormData) {
                 <></>
             ) : (
                 <div>
-                    {/* <button onClick={executeMe}>display/hide textarea</button> */}
-                    
-                    {showDiv && (
-                        <div>
-                            <textarea></textarea>
-                        </div>
-                    )}
+                    <div className={styles.section}>
+                        <button
+                            className='buttonPrimary'
+                            onClick={() => addNote()}
+                        >
+                            Add new note
+                        </button>
+                        <button
+                            className='buttonPrimary'
+                            onClick={removeLastNote}
+                        >
+                            Remove last note
+                        </button>
+                    </div>
 
-										<div className={styles.section}>
-											<button className='buttonPrimary' onClick={() => addNote()}>Add new note</button>
-											<button className='buttonPrimary' onClick={removeLastNote}>Remove last note</button>
-										</div>
+                    <div className={styles.section}>
+                        {notes.map((note: Notes, index: number) => {
+                            return (
+                                <div key={index} className={styles.note}>
+                                    <input
+                                        className={styles.title}
+                                        type='text'
+                                        onChange={(event) =>
+                                            updateTitle(note.priority, event)
+                                        }
+                                        value={note.note_title}
+                                    ></input>
 
-                    
-                    
-										<div className={styles.section}>
-											{notes.map((note: Notes, index: number) => {
-													return (
-															<div key={index} className={styles.note}>
-																	<input
-																			className={styles.title}
-																			type='text'
-																			onChange={(event) =>
-																					updateTitle(note.priority, event)
-																			}
-																			value={note.note_title}
-																	></input>
+                                    <input
+                                        className={styles.priority}
+                                        type='number'
+                                        onChange={(event) =>
+                                            updatePriority(note.priority, event)
+                                        }
+                                        value={note.priority}
+                                    ></input>
 
-																	<input
-																			className={styles.priority}
-																			type='number'
-																			onChange={(event) =>
-																					updatePriority(note.priority, event)
-																			}
-																			value={note.priority}
-																	></input>
+                                    <button
+                                        className={styles.remove}
+                                        onClick={() =>
+                                            removeNote(note.priority)
+                                        }
+                                    >
+                                        X
+                                    </button>
 
-																	<button
-																			className={styles.remove}
-																			onClick={() => removeNote(note.priority)}
-																	>
-																			X
-																	</button>
-
-																	<textarea
-																			className={styles.content}
-																			onChange={(event) =>
-																					updateContent(note.priority, event)
-																			}
-																			value={note.note_content}
-																	></textarea>
-															</div>
-													);
-											})}
-										</div>
+                                    <textarea
+                                        className={styles.content}
+                                        onChange={(event) =>
+                                            updateContent(note.priority, event)
+                                        }
+                                        value={note.note_content}
+                                    ></textarea>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             )}
-						<div className={styles.section}>
-							<button className='buttonPrimary' onClick={clog}>send</button>
-						</div>
+            <div className={styles.section}>
+                <button className='buttonPrimary' onClick={clog}>
+                    send
+                </button>
+            </div>
         </>
     );
 }
 
 export default StratNewFormContent;
-
-/*
-u samej gory opcja zmiany type?
-
-przyjmowanie wartosci z parent component, ale stad juz wysylanie do endpointa
-
-na podstawie type generujemy odpowiednią ilość textarea
-	build order na onChange powinien się zmieniać od razu na parsowany build	
-	
-	notes powinno dac sie usuwac (ale nie ostatnią)
-
-	prasowanie notes jak w readme?
-
-	jesli build order
-	- jedno text area. przycisk "add notes" wyszarzony, i po najechaniu pokazuje zeby zmienic type
-	
-	jesli build order + notes
-	- dwa text area, moze byc wiecej (Ale tylko notes, nie build orderow) przycisk add notes
-
-	jesli notes
-	- jedno text area, moze byc wiecej, przycisk add notes
-
-	*/

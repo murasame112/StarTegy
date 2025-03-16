@@ -61,16 +61,20 @@ function StratNewFormMeta({ sendFormData }: any) {
     };
 
     const updateType = (event: any) => {
-      setType(Type[event.target.value as keyof typeof Type]);
+        setType(Type[event.target.value as keyof typeof Type]);
     };
 
     const updateBuildType = (event: any) => {
         setBuildType(event.target.value);
     };
 
-		const getEnumKey = (value: string) => {
-			return Object.keys(Type).find(key => Type[key as keyof typeof Type] === value) || '';
-		};
+    const getEnumKey = (value: string) => {
+        return (
+            Object.keys(Type).find(
+                (key) => Type[key as keyof typeof Type] === value
+            ) || ''
+        );
+    };
 
     const submitForm = () => {
         const data: FormData = {
@@ -130,7 +134,7 @@ function StratNewFormMeta({ sendFormData }: any) {
                         </select>
                     </div>
                 </div>
-								
+
                 <div>
                     <input
                         type='text'
@@ -142,7 +146,7 @@ function StratNewFormMeta({ sendFormData }: any) {
                         &#8520;
                     </p>
                 </div>
-								
+
                 <div>
                     <div className={styles.labelDiv}>
                         <label>Strategy type:</label>
