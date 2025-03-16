@@ -75,6 +75,7 @@ input[type='number'] {
     border: 1px solid var(--dark_green_ls);
     color: var(--light_green_hs);
     background-color: var(--green_ls);
+		cursor: pointer;
 }
 
 .buildOrder {

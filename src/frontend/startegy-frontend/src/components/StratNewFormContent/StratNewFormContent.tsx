@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { FormData } from '../StratNew/StratNew';
-import { Notes, BuildOrder, Step } from '../../models/strategy_model';
+import {	Strategy, Notes, Content, BuildOrder, Step } from '../../models/strategy_model';
 
 import { parseBuild } from '../../scripts/build_parser';
 
@@ -13,8 +13,8 @@ import styles from './StratNewFormContent.module.css';
 function StratNewFormContent(props: FormData) {
     const [showDiv, setShowDiv] = useState(false);
     const [notes, setNotes] = useState<Notes[]>([new Notes(
-			0,
-			'Note ' + 0,
+			1,
+			'Note ' + 1,
 			'This is a note'
 	)]);
     const [parsedBuild, setParsedBuild] = useState<Step[]>([]);
@@ -23,17 +23,12 @@ function StratNewFormContent(props: FormData) {
         const buildString: string = event.target.value;
         const steps: Step[] = parseBuild(buildString);
         setParsedBuild(steps);
-				console.log(steps);
-    };
-
-    const executeMe = () => {
-        setShowDiv(!showDiv);
     };
 
     const addNote = () => {
         let note = new Notes(
-            notes.length,
-            'Note ' + notes.length,
+            notes.length + 1,
+            'Note ' + (notes.length + 1),
             'This is a note'
         );
         setNotes(notes.concat([note]));
@@ -80,7 +75,6 @@ function StratNewFormContent(props: FormData) {
     const updatePriority = (priority: number, event: any) => {
         const newPriority = parseInt(event.target.value, 10);
         if (newPriority >= notes.length) {
-            alert('Priority too high');
             event.target.value = priority;
         } else {
             const newNotes = notes.map((item) => {
@@ -110,7 +104,29 @@ function StratNewFormContent(props: FormData) {
     };
 
     const clog = () => {
-        console.log(props);
+			const buildOrder: BuildOrder = {
+				priority: 0,
+				steps: parsedBuild
+			};			
+
+			const content: Content = {
+				...((props.type === Type.build || props.type === Type.build_notes ) && { build_order: buildOrder }),
+				...((props.type === Type.notes || props.type === Type.build_notes ) && { notes: notes })
+			
+			};
+
+			const strat: Strategy = {
+				race: props.race,
+				title: props.title,
+				matchup: [props.matchup],
+				author: props.author,
+				uploaded_by: "current_user", //TODO: tu current usera powinno pobierac
+				type: props.type,
+				build_type: props.buildType,
+				tags: [],
+				content: content
+			};
+        console.log(strat);
     };
 
     return (
@@ -216,7 +232,7 @@ function StratNewFormContent(props: FormData) {
                 </div>
             )}
 						<div className={styles.section}>
-							<button onClick={clog}>cl</button>
+							<button className='buttonPrimary' onClick={clog}>send</button>
 						</div>
         </>
     );
