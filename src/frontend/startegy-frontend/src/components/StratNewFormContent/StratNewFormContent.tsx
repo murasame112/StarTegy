@@ -103,7 +103,7 @@ function StratNewFormContent(props: FormData) {
         );
     };
 
-    const clog = () => {
+    const sendForm = () => {
         const buildOrder: BuildOrder = {
             priority: 0,
             steps: parsedBuild,
@@ -187,20 +187,6 @@ function StratNewFormContent(props: FormData) {
                 <></>
             ) : (
                 <div>
-                    <div className={styles.section}>
-                        <button
-                            className='buttonPrimary'
-                            onClick={() => addNote()}
-                        >
-                            Add new note
-                        </button>
-                        <button
-                            className='buttonPrimary'
-                            onClick={removeLastNote}
-                        >
-                            Remove last note
-                        </button>
-                    </div>
 
                     <div className={styles.section}>
                         {notes.map((note: Notes, index: number) => {
@@ -244,10 +230,25 @@ function StratNewFormContent(props: FormData) {
                             );
                         })}
                     </div>
+										
+										<div className={styles.section}>
+                        <button
+                            className='buttonPrimary'
+                            onClick={() => addNote()}
+                        >
+                            Add new note
+                        </button>
+                        <button
+                            className='buttonPrimary'
+                            onClick={removeLastNote}
+                        >
+                            Remove last note
+                        </button>
+                    </div>
                 </div>
             )}
             <div className={styles.section}>
-                <button className='buttonPrimary' onClick={clog}>
+                <button className='buttonPrimary' onClick={sendForm}>
                     send
                 </button>
             </div>
