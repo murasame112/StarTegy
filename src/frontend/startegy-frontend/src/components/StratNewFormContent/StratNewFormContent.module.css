@@ -124,6 +124,7 @@ input[type='number'] {
 		background-color: var(--dark_green_ls);
     margin-left: 5px;
 		text-align: left;
+		overflow: auto;
 }
 
 .buildParsed ul{

@@ -121,6 +121,7 @@ background-color: var(--green_ls);
 	padding-right:5px;
 	padding-left:5px;
 	font-size:20px;
+	margin-bottom: 5px;
 }
 
 .buttonPrimary:hover{
