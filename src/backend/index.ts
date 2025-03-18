@@ -3,9 +3,11 @@ import express from 'express';
 import { Request, Response } from 'express';
 import * as mongoClient from "./mongodb/connection"
 import * as strategyEndpoints from "./endpoints/strategy_endpoints";
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 mongoClient.run();
 
 
