@@ -10,11 +10,13 @@ import {
 } from '../../models/strategy_model';
 import { parseBuild } from '../../scripts/build_parser';
 import { Type } from '../../enums/type_enum';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './StratNewFormContent.module.css';
 
 function StratNewFormContent(props: FormData) {
-	
+    const navigate = useNavigate();
+
     const [notes, setNotes] = useState<Notes[]>([
         new Notes(1, 'Note ' + 1, 'This is a note'),
     ]);
@@ -131,21 +133,22 @@ function StratNewFormContent(props: FormData) {
             content: content,
         };
 
-				const response = await fetch("http://localhost:4200/strategy", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(strat),
-				});
+        try {
+            const response = await fetch('http://localhost:4200/strategy', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(strat),
+            });
 
-				if (!response.ok) {
-					throw new Error("Błąd w żądaniu");
-				}
-		
-				const data = await response.json();
-				console.log("Odpowiedź z serwera:", data);
-		
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+						navigate("/strategies");
+        } catch (error) {
+            alert('Internal error');
+        }
     };
 
     return (
@@ -204,7 +207,6 @@ function StratNewFormContent(props: FormData) {
                 <></>
             ) : (
                 <div>
-
                     <div className={styles.section}>
                         {notes.map((note: Notes, index: number) => {
                             return (
@@ -247,8 +249,8 @@ function StratNewFormContent(props: FormData) {
                             );
                         })}
                     </div>
-										
-										<div className={styles.section}>
+
+                    <div className={styles.section}>
                         <button
                             className='buttonPrimary'
                             onClick={() => addNote()}
