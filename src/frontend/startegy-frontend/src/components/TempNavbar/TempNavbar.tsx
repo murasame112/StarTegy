@@ -14,7 +14,6 @@ function TempNavbar(){
 		<p>TEMPORARY NAVBAR</p><br/>
 		<Link to='/strategies'>Strategy list</Link><br/>
 		<Link to='/create'>Add new strategy</Link><br/>
-		<Link to='/parse'>build parser</Link>
 	</div>);
 }
 
