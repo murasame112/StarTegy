@@ -1,10 +1,19 @@
 import styles from './Header.module.css';
 import logo from '/pictures/logo/logo-three_s-removebg-preview.png';
+import {useNavigate} from 'react-router-dom';
 
 function Header() {
+	const navigate = useNavigate();
+
+	
+
+	const toStratlist = () => {
+		navigate("/strategies");
+	}
+
     return (
         <div className={styles.header}>
-            <div className={styles.content}>
+            <div className={styles.content} onClick={toStratlist}>
                 <div className={styles.logo}>
                     <img
                         className={styles.logo_image}
