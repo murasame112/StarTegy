@@ -46,14 +46,14 @@ function StratNewFormMeta({ sendFormData }: any) {
     };
 
     const updateRace = (event: any) => {
-        setRace(event.target.value);
+				setRace(event.target.value as Race);
         matchupKeys = Object.keys(Matchup).filter(
             getMatchups
         ) as Array<Matchup>;
     };
 
     const updateMatchup = (event: any) => {
-        setMatchup(event.target.value);
+        setMatchup(Matchup[event.target.value as keyof typeof Matchup]);
     };
 
     const updateAuthor = (event: any) => {
@@ -68,7 +68,15 @@ function StratNewFormMeta({ sendFormData }: any) {
         setBuildType(event.target.value);
     };
 
-    const getEnumKey = (value: string) => {
+		const getMatchupKey = (value: string) => {
+				return (
+						Object.keys(Matchup).find(
+								(key) => Matchup[key as keyof typeof Matchup] === value
+						) || ''
+				);
+		};
+
+    const getTypeKey = (value: string) => {
         return (
             Object.keys(Type).find(
                 (key) => Type[key as keyof typeof Type] === value
@@ -103,27 +111,25 @@ function StratNewFormMeta({ sendFormData }: any) {
                 <div>
                     <div className={styles.labelDiv}>
                         <label>Race:</label>
-                        <select
-                            className={styles.selectInput}
-                            name='race'
-                            value={race}
-                            onChange={updateRace}
-                        >
-                            {raceKeys.map((key: string, index: number) => (
-                                <option
-                                    key={index}
-                                    value={Race[key as keyof typeof Race]}
-                                >
-                                    {Race[key as keyof typeof Race]}
-                                </option>
-                            ))}
-                        </select>
+												<select
+													className={styles.selectInput}
+													name='race'
+													value={race}
+													onChange={updateRace}
+											>
+													{Object.keys(Race).map((key) => (
+															<option key={key} value={Race[key as keyof typeof Race]}>
+																	{Race[key as keyof typeof Race]}
+															</option>
+													))}
+											</select>
+
                     </div>
                     <div className={styles.labelDiv}>
                         <label>Matchup:</label>
                         <select
                             className={styles.selectInput}
-                            value={matchup}
+                            value={getMatchupKey(matchup)}
                             onChange={updateMatchup}
                         >
                             {matchupKeys.map((key: string, index: number) => (
@@ -152,7 +158,7 @@ function StratNewFormMeta({ sendFormData }: any) {
                         <label>Strategy type:</label>
                         <select
                             className={styles.selectInput}
-                            value={getEnumKey(type)}
+                            value={getTypeKey(type)}
                             onChange={updateType}
                         >
                             {typeKeys.map((key: string, index: number) => (
