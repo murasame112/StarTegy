@@ -24,13 +24,8 @@ function App() {
 			<Router>
 			<Header/>
         <div className='content'>
-					<TempNavbar/>
-                {/* <Link to="/strategy/id" >display strategy</Link>  */}
-                {/* <Link to="/edit/id" >edit strategy</Link>  */}
-                {/* <Link to="/players" >Players list</Link> */}
-                {/* <Link to="/profile/id" >user profile</Link>  */}
-
                 <Routes>
+										<Route path="/" element={<StratList />} />
                     <Route path='/strategies' element={<StratList />}></Route>
                     <Route
                         path='/strategy/:id'
