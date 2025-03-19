@@ -1,5 +1,4 @@
 // ===== components =====
-import Blank from './components/Blank/Blank';
 import StratList from './components/StratList/StratList';
 import StratSingle from './components/StratSingle/StratSingle';
 import StratNew from './components/StratNew/StratNew';

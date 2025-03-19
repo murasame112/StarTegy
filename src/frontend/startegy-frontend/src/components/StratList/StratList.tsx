@@ -23,6 +23,7 @@ function StratList() {
 
     return (
         <>
+					<div className='card'>
                 <div className={styles.filtering}>
                     <p>search bar + filter button will be here</p>
                 </div>
@@ -44,6 +45,7 @@ function StratList() {
                         </Link>
                     ))}
                 </div>
+						</div>
         </>
     );
 }

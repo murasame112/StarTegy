@@ -1,9 +1,7 @@
 import { Strategy } from '../../models/strategy_model';
 import { ListedStrategy } from '../../models/listed_strategy_model';
 
-
 // ===== styles =====
-import stylesDefault from '../../index.css';
 import styles from './StratListItem.module.css';
 
 // ===== pictures =====
@@ -46,7 +44,7 @@ function StratListItem(props: ListedStrategy) {
                 <p>{props.type}</p>
             </div>
             <div className={styles.dateBox}>
-                {/* <p>added {props.date?.toLocaleDateString("en-GB")}</p> TODO: */}
+                { <p>added {new Date(props.date!).toLocaleDateString('en-GB')}</p>}
             </div>
             <div className={styles.matchupBox}>
                 <p>{matchups}</p>
@@ -54,7 +52,7 @@ function StratListItem(props: ListedStrategy) {
             <div className={styles.buildTypeBox}>
                 <p>{props.build_type}</p>
             </div>
-            <button className={styles.tagsButton}>Tags</button>
+            <button hidden className={styles.tagsButton}>Tags</button>
         </div>
     );
 }
