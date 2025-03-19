@@ -52,7 +52,7 @@ function StratListItem(props: ListedStrategy) {
             <div className={styles.buildTypeBox}>
                 <p>{props.build_type}</p>
             </div>
-            <button hidden className={styles.tagsButton}>Tags</button>
+            <button className={styles.tagsButton}>Tags</button>
         </div>
     );
 }
