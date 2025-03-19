@@ -46,7 +46,6 @@ function StratNew() {
 
     return (
         <>
-            <div className={stylesBlank.blank}>
 							<div className='card'>
                 {formMetaFlag ? (
                     <div>
@@ -71,7 +70,6 @@ function StratNew() {
                     <></>
                 )}
 							</div>
-            </div>
 
         </>
     );

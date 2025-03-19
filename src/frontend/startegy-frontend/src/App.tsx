@@ -5,6 +5,7 @@ import StratSingle from './components/StratSingle/StratSingle';
 import StratNew from './components/StratNew/StratNew';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import stylesBlank from './components/Blank/Blank.module.css';
 import {
     BrowserRouter as Router,
     Routes,
@@ -23,6 +24,7 @@ function App() {
 			<Router>
 			<Header/>
         <div className='content'>
+					<div className={'blank'}>
                 <Routes>
 										<Route path="/" element={<StratList />} />
                     <Route path='/strategies' element={<StratList />}></Route>
@@ -39,6 +41,7 @@ function App() {
                         element={<Navigate to='/' replace />}
                     ></Route>
                 </Routes>
+						</div>
         </div>
 				<Footer/>
 				</Router>
