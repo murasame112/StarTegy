@@ -5,7 +5,6 @@ import StratSingle from './components/StratSingle/StratSingle';
 import StratNew from './components/StratNew/StratNew';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import TempNavbar from './components/TempNavbar/TempNavbar';
 import {
     BrowserRouter as Router,
     Routes,
