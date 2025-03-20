@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import StratListItem from '../StratListItem/StratListItem';
 
 // ===== styles =====
-import stylesBlank from '../Blank/Blank.module.css';
 import styles from './StratList.module.css';
 
 function StratList() {
@@ -21,14 +20,27 @@ function StratList() {
             .catch((error) => console.log(error));
     }, []);
 
+		const search = () => {
+
+		}
+
     return (
         <>
 					<div className='card'>
                 <div className={styles.filtering}>
-                    <p>search bar + filter button will be here</p>
+									<input
+                        type='text'
+                        placeholder='Search'
+                        className={styles.textInput}
+                        onChange={search}
+                  />
+									<div className={styles.buttonsDiv}>
+										<button className={styles.addNewButton + ' buttonPrimary'}>Add new strategy</button>
+										<button className='buttonSecondary'>Filter</button>
+									</div>
+
                 </div>
                 <div className={styles.listBox}>
-                    <hr />
                     {data.map((item, i) => (
                         <Link to={'/strategy/' + item._id} key={i}>
                             <StratListItem

@@ -130,6 +130,26 @@ background-color: var(--green_ls);
 	background-color: var(--dark_green_ls);
 }
 
+.buttonSecondary{
+		min-width:100px;
+		min-height:30px;
+		border-radius: 25px;
+		border: 1px solid var(--dark_green);
+		padding-right:5px;
+		padding-left:5px;
+		font-size:20px;
+		margin-bottom: 5px;
+		background:
+		linear-gradient(
+			rgba(0, 0, 0, 0.4), 
+			rgba(0, 0, 0, 0.4)
+		);
+}
+
+.buttonSecondary:hover{
+	background-color: var(--dark_green_ls);;
+}
+
 .blank {
 	color: var(--light_green_ls);
 	min-height: 88vh;

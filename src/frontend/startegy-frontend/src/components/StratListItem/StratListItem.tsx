@@ -41,16 +41,16 @@ function StratListItem(props: ListedStrategy) {
                 <p className={styles.title}>{props.title}</p>
             </div>
             <div className={styles.typeBox}>
-                <p>{props.type}</p>
+                <p className={styles.smallP}>{props.type}</p>
             </div>
             <div className={styles.dateBox}>
-                { <p>added {new Date(props.date!).toLocaleDateString('en-GB')}</p>}
+                { <p className={styles.smallP}>added {new Date(props.date!).toLocaleDateString('en-GB')}</p>}
             </div>
             <div className={styles.matchupBox}>
-                <p>{matchups}</p>
+                <p className={styles.smallP}>{matchups}</p>
             </div>
             <div className={styles.buildTypeBox}>
-                <p>{props.build_type}</p>
+                <p className={styles.smallP}>{props.build_type}</p>
             </div>
             <button className={styles.tagsButton}>Tags</button>
         </div>
