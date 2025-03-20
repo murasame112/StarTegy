@@ -145,7 +145,7 @@ function StratNewFormContent(props: FormData) {
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
             }
-						navigate("/strategies");
+						navigate("/");
         } catch (error) {
             alert('Internal error');
         }

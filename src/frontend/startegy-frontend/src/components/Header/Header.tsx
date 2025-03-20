@@ -8,7 +8,7 @@ function Header() {
 	
 
 	const toStratlist = () => {
-		navigate("/strategies");
+		navigate("/");
 	}
 
     return (

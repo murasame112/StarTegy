@@ -26,7 +26,6 @@ function App() {
 					<div className={'blank'}>
                 <Routes>
 										<Route path="/" element={<StratList />} />
-                    <Route path='/strategies' element={<StratList />}></Route>
                     <Route
                         path='/strategy/:id'
                         element={<StratSingle />}
