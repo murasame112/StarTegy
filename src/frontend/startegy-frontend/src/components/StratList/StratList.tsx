@@ -35,7 +35,7 @@ function StratList() {
                         onChange={search}
                   />
 									<div className={styles.buttonsDiv}>
-									<Link to={'/create'}><button className={styles.addNewButton + ' buttonPrimary'}>Add new strategy</button></Link>
+										<Link to={'/create'}><button className={styles.addNewButton + ' buttonPrimary'}>Add new strategy</button></Link>
 										<button className='buttonSecondary'>Filter</button>
 									</div>
 

@@ -27,9 +27,7 @@ function StratListItem(props: ListedStrategy) {
 
     return (
         <div className={styles.box}>
-            <div className={styles.starBox}>
-                <img src={star} alt='star' className={styles.star} />
-            </div>
+
             <div className={styles.pictureBox}>
                 <img
                     src={getPic(props.race)}
