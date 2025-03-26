@@ -10,7 +10,6 @@ import terran_pic from '/pictures/races/terran_icon.png';
 import protoss_pic from '/pictures/races/protoss_icon.png';
 import star from '/pictures/misc/star-48.png';
 
-
 function getPic(race: string) {
     switch (race) {
         case 'Zerg':
@@ -27,7 +26,6 @@ function StratListItem(props: ListedStrategy) {
 
     return (
         <div className={styles.box}>
-
             <div className={styles.pictureBox}>
                 <img
                     src={getPic(props.race)}
@@ -42,7 +40,12 @@ function StratListItem(props: ListedStrategy) {
                 <p className={styles.smallP}>{props.type}</p>
             </div>
             <div className={styles.dateBox}>
-                { <p className={styles.smallP}>added {new Date(props.date!).toLocaleDateString('en-GB')}</p>}
+                {
+                    <p className={styles.smallP}>
+                        added{' '}
+                        {new Date(props.date!).toLocaleDateString('en-GB')}
+                    </p>
+                }
             </div>
             <div className={styles.matchupBox}>
                 <p className={styles.smallP}>{matchups}</p>

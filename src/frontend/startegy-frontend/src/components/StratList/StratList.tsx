@@ -9,94 +9,93 @@ import StratListItem from '../StratListItem/StratListItem';
 import styles from './StratList.module.css';
 
 function StratList() {
-		const divRef = useRef<HTMLDivElement>(null);
-		const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
-		const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+    const divRef = useRef<HTMLDivElement>(null);
+    const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
     const [data, setData] = useState<Strategy[]>([]);
-		const [filteredData, setFilteredData] = useState<Strategy[]>([]);
-		const [filtersVisible, setFiltersVisible] = useState<boolean>(false);
-		const [filters, setFilters] = useState<{ [key: string]: boolean }>({
-			"Protoss": false,
-			"PvP": false,
-			"PvT": false,
-			"PvZ": false,
-			"Terran": false,
-			"TvP": false,
-			"TvT": false,
-			"TvZ": false,
-			"Zerg": false,
-			"ZvP": false,
-			"ZvT": false,
-			"ZvZ": false,
-
-		});
-
+    const [filteredData, setFilteredData] = useState<Strategy[]>([]);
+    const [filtersVisible, setFiltersVisible] = useState<boolean>(false);
+    const [filters, setFilters] = useState<{ [key: string]: boolean }>({
+        Protoss: false,
+        PvP: false,
+        PvT: false,
+        PvZ: false,
+        Terran: false,
+        TvP: false,
+        TvT: false,
+        TvZ: false,
+        Zerg: false,
+        ZvP: false,
+        ZvT: false,
+        ZvZ: false,
+    });
 
     useEffect(() => {
         fetch('http://localhost:4200/all')
             .then((response) => response.json())
             .then((data) => {
                 setData(data);
-								setFilteredData(data);
+                setFilteredData(data);
             })
             .catch((error) => console.log(error))
-						.then(()=>{
-							setDataLoaded(true); 
-						})
+            .then(() => {
+                setDataLoaded(true);
+            });
     }, []);
 
-		useEffect(() => {
-			if (dataLoaded && divRef.current) {
-				setMinHeight(divRef.current.offsetHeight);
-			}
-		}, [dataLoaded]);
+    useEffect(() => {
+        if (dataLoaded && divRef.current) {
+            setMinHeight(divRef.current.offsetHeight);
+        }
+    }, [dataLoaded]);
 
+    const search = (event: any) => {
+        const value = event.target.value.toLowerCase();
+        const filtered = data.filter((item: Strategy) =>
+            item.title.toLowerCase().includes(value)
+        );
+        setFilteredData(filtered);
+    };
 
-		const search = (event: any) => {
-			const value = event.target.value.toLowerCase();
-			const filtered = data.filter((item: Strategy) =>
-				item.title.toLowerCase().includes(value)
-			);
-			setFilteredData(filtered);
-		};
+    const dependencies: Record<string, string[]> = {
+        Protoss: ['PvP', 'PvT', 'PvZ'],
+        Terran: ['TvP', 'TvT', 'TvZ'],
+        Zerg: ['ZvP', 'ZvT', 'ZvZ'],
+    };
 
-		const dependencies: Record<string, string[]> = {
-			Protoss: ["PvP", "PvT", "PvZ"],
-			Terran: ["TvP", "TvT", "TvZ"],
-			Zerg: ["ZvP", "ZvT", "ZvZ"],
-		};
+    const filtersChange = (event: any) => {
+        const { name, checked } = event.target;
 
-		const filtersChange = (event: any) => {
-			const { name, checked } = event.target;
+        setFilters((prev) => {
+            const updatedFilters: any = {
+                ...prev,
+                [name]: checked,
+            };
 
-			setFilters((prev) => {
-				const updatedFilters: any = {
-					...prev,
-					[name]: checked,
-				};
+            if (dependencies[name]) {
+                dependencies[name].forEach((dep) => {
+                    updatedFilters[dep] = checked;
+                });
+            }
 
-				if (dependencies[name]) {
-					dependencies[name].forEach((dep) => {
-						updatedFilters[dep] = checked;
-					});
-				}
-		
-				const selectedFilters = Object.keys(updatedFilters).filter((key) => updatedFilters[key]);
+            const selectedFilters = Object.keys(updatedFilters).filter(
+                (key) => updatedFilters[key]
+            );
 
-				if(selectedFilters.length > 0) {
-					const filtered = data.filter((item: Strategy) =>
-						selectedFilters.some((matchup) => item.matchup.includes(matchup))
-					);
-					setFilteredData(filtered);
-				} else {
-					setFilteredData(data);
-				}
-				
-				
+            if (selectedFilters.length > 0) {
+                const filtered = data.filter((item: Strategy) =>
+                    selectedFilters.some((matchup) =>
+                        item.matchup.includes(matchup)
+                    )
+                );
+                setFilteredData(filtered);
+            } else {
+                setFilteredData(data);
+            }
 
-				return updatedFilters;
-			});
-		}
+            return updatedFilters;
+        });
+    };
 
     return (
         <>
@@ -138,12 +137,18 @@ function StratList() {
                                 <label
                                     key={key}
                                     htmlFor={key + '_input'}
-                                    className={key === 'Protoss' || key === 'Terran' || key === 'Zerg' ? styles.filterInputHigh : styles.filterInputLow}
+                                    className={
+                                        key === 'Protoss' ||
+                                        key === 'Terran' ||
+                                        key === 'Zerg'
+                                            ? styles.filterInputHigh
+                                            : styles.filterInputLow
+                                    }
                                 >
                                     <input
                                         name={key}
                                         id={key + '_input'}
-																				className={styles.checkbox}
+                                        className={styles.checkbox}
                                         checked={filters[key]}
                                         onChange={filtersChange}
                                         type='checkbox'

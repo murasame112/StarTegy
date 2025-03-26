@@ -9,7 +9,7 @@
 	grid-template-rows: 50% 50%;
 }
 
-.box:hover{
+.box:hover {
 	background-color: var(--green_ls);
 }
 
@@ -75,7 +75,7 @@
 
 .tagsButton {
 	/*display: flex;*/
-	display:none;
+	display: none;
 	align-items: center;
 	justify-content: center;
 	margin: auto;

@@ -8,7 +8,7 @@
 	margin-top: 15px;
 	width: 750px;
 	height: 50px;
-	display:flex;
+	display: flex;
 	justify-content: space-between;
 	position: relative;
 }
@@ -17,8 +17,8 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	padding-top:3px;
-	padding-bottom:3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 	align-items: start;
 	width: 180px;
 	height: 380px;
@@ -29,10 +29,8 @@
 	background-color: var(--green_ls);
 	border: 3px solid var(--dark_green_ls);
 	background:
-	linear-gradient(
-		rgba(0, 0, 0, 0.9), 
-		rgba(0, 0, 0, 0.9)
-	);
+		linear-gradient(rgba(0, 0, 0, 0.9),
+			rgba(0, 0, 0, 0.9));
 
 }
 
@@ -46,7 +44,7 @@
 	font-size: 18px !important;
 }
 
-label{
+label {
 	font-family: jura-regular;
 }
 
@@ -55,9 +53,9 @@ label{
 }
 
 .textInput {
-	width:300px;
-	height:35px;
-	font-size:28px;
+	width: 300px;
+	height: 35px;
+	font-size: 28px;
 }
 
 hr {
@@ -69,20 +67,20 @@ a {
 }
 
 button {
-	height:39px;
-	width:auto;
+	height: 39px;
+	width: auto;
 }
 
-.addNewButton{
+.addNewButton {
 	min-width: 186px;
 }
 
-.filterButton{
+.filterButton {
 	min-width: 65px;
 }
 
-.buttonsDiv{
+.buttonsDiv {
 	width: 36%;
-	display:flex;
+	display: flex;
 	justify-content: space-between;
 }
