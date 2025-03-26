@@ -60,18 +60,40 @@ function StratList() {
 			setFilteredData(filtered);
 		};
 
+		const dependencies: Record<string, string[]> = {
+			Protoss: ["PvP", "PvT", "PvZ"],
+			Terran: ["TvP", "TvT", "TvZ"],
+			Zerg: ["ZvP", "ZvT", "ZvZ"],
+		};
+
 		const filtersChange = (event: any) => {
 			const { name, checked } = event.target;
-			console.log(name);
 
 			setFilters((prev) => {
 				const updatedFilters: any = {
 					...prev,
 					[name]: checked,
 				};
+
+				if (dependencies[name]) {
+					dependencies[name].forEach((dep) => {
+						updatedFilters[dep] = checked;
+					});
+				}
 		
 				const selectedFilters = Object.keys(updatedFilters).filter((key) => updatedFilters[key]);
+
+				if(selectedFilters.length > 0) {
+					const filtered = data.filter((item: Strategy) =>
+						selectedFilters.some((matchup) => item.matchup.includes(matchup))
+					);
+					setFilteredData(filtered);
+				} else {
+					setFilteredData(data);
+				}
 				
+				
+
 				return updatedFilters;
 			});
 		}
