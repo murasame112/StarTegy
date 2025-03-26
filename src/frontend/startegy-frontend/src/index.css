@@ -109,9 +109,9 @@ li {
 
 
 input, textarea, select, button{
-border: 1px solid var(--dark_green_ls);
-color: var(--light_green_hs);
-background-color: var(--green_ls);
+	border: 1px solid var(--dark_green_ls);
+	color: var(--light_green_hs);
+	background-color: var(--green_ls);
 }
 
 
@@ -147,7 +147,24 @@ background-color: var(--green_ls);
 }
 
 .buttonSecondary:hover{
-	background-color: var(--dark_green_ls);;
+	background-color: var(--dark_green_ls);
+}
+
+.buttonSecondaryActive {
+	min-width:100px;
+	min-height:30px;
+	border-radius: 25px;
+	border: 1px solid var(--dark_green);
+	background-color: var(--light_green_ls) !important;
+	padding-right:5px;
+	padding-left:5px;
+	font-size:20px;
+	margin-bottom: 5px;
+	background:
+	linear-gradient(
+		rgba(0, 0, 0, 0.4), 
+		rgba(0, 0, 0, 0.4)
+	);
 }
 
 .blank {

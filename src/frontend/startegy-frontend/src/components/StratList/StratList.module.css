@@ -4,15 +4,57 @@
 	height: auto;
 }
 
-.filtering {
+.upperBar {
 	margin-top: 15px;
 	width: 750px;
 	height: 50px;
 	display:flex;
 	justify-content: space-between;
+	position: relative;
 }
 
-.textInput{
+.filters {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	padding-top:3px;
+	padding-bottom:3px;
+	align-items: start;
+	width: 180px;
+	height: 380px;
+	position: absolute;
+	top: 40px;
+	left: 88%;
+	color: var(--light_green_hs);
+	background-color: var(--green_ls);
+	border: 3px solid var(--dark_green_ls);
+	background:
+	linear-gradient(
+		rgba(0, 0, 0, 0.9), 
+		rgba(0, 0, 0, 0.9)
+	);
+
+}
+
+.filterInputHigh {
+	margin-left: 10px;
+	font-size: 22px !important;
+}
+
+.filterInputLow {
+	margin-left: 18px;
+	font-size: 18px !important;
+}
+
+label{
+	font-family: jura-regular;
+}
+
+.checkbox {
+	accent-color: var(--light_green_hs);
+}
+
+.textInput {
 	width:300px;
 	height:35px;
 	font-size:28px;
