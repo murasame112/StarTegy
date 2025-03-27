@@ -23,12 +23,12 @@
 	min-height: 100vh;
 }
 
-.navbarTemp{
-	display:block;
+.navbarTemp {
+	display: block;
 }
 
-.navbarTempInactive{
-	display:none;
+.navbarTempInactive {
+	display: none;
 }
 
 .content {
@@ -44,25 +44,28 @@
 
 .card {
 	width: 55%;
-	min-width:800px;
+	min-width: 800px;
+	max-height: 700px !important;
 	border-radius: 25px;
-	margin-top:auto;
-	margin-bottom:auto;
-	padding-top:20px;
-	padding-bottom:20px;
-	display:flex;
+	margin-top: auto;
+	margin-bottom: auto;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
+	overflow: auto;
+	overflow-x: hidden;
+	scrollbar-color: var(--light_green_ls) var(--dark_green_ls);
+	scrollbar-width: thin;
 	background:
-        linear-gradient(
-          rgba(0, 0, 0, 0.7), 
-          rgba(0, 0, 0, 0.7)
-        );
+		linear-gradient(rgba(0, 0, 0, 0.7),
+			rgba(0, 0, 0, 0.7));
 }
 
-.card > div {
-	width:90%;
+.card>div {
+	width: 90%;
 }
 
 body {
@@ -73,7 +76,7 @@ body {
 	min-height: 100vh;
 }
 
-body > div {
+body>div {
 	height: 100%;
 	width: 100%;
 	min-height: 100vh;
@@ -108,63 +111,62 @@ li {
 }
 
 
-input, textarea, select, button{
+input,
+textarea,
+select,
+button {
 	border: 1px solid var(--dark_green_ls);
 	color: var(--light_green_hs);
 	background-color: var(--green_ls);
 }
 
 
-.buttonPrimary{
-	min-width:100px;
-	min-height:30px;
+.buttonPrimary {
+	min-width: 100px;
+	min-height: 30px;
 	border-radius: 25px;
-	padding-right:5px;
-	padding-left:5px;
-	font-size:20px;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-size: 20px;
 	margin-bottom: 5px;
 }
 
-.buttonPrimary:hover{
-	color:var(--light_green_ls);
+.buttonPrimary:hover {
+	color: var(--light_green_ls);
 	background-color: var(--dark_green_ls);
 }
 
-.buttonSecondary{
-		min-width:100px;
-		min-height:30px;
-		border-radius: 25px;
-		border: 1px solid var(--dark_green);
-		padding-right:5px;
-		padding-left:5px;
-		font-size:20px;
-		margin-bottom: 5px;
-		background:
-		linear-gradient(
-			rgba(0, 0, 0, 0.4), 
-			rgba(0, 0, 0, 0.4)
-		);
+.buttonSecondary {
+	min-width: 100px;
+	min-height: 30px;
+	border-radius: 25px;
+	border: 1px solid var(--dark_green);
+	padding-right: 5px;
+	padding-left: 5px;
+	font-size: 20px;
+	margin-bottom: 5px;
+	background:
+		linear-gradient(rgba(0, 0, 0, 0.4),
+			rgba(0, 0, 0, 0.4));
 }
 
-.buttonSecondary:hover{
+.buttonSecondary:hover {
 	background-color: var(--dark_green_ls);
 }
 
 .buttonSecondaryActive {
-	min-width:100px;
-	min-height:30px;
+	min-width: 100px;
+	min-height: 30px;
 	border-radius: 25px;
 	border: 1px solid var(--dark_green);
 	background-color: var(--light_green_ls) !important;
-	padding-right:5px;
-	padding-left:5px;
-	font-size:20px;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-size: 20px;
 	margin-bottom: 5px;
 	background:
-	linear-gradient(
-		rgba(0, 0, 0, 0.4), 
-		rgba(0, 0, 0, 0.4)
-	);
+		linear-gradient(rgba(0, 0, 0, 0.4),
+			rgba(0, 0, 0, 0.4));
 }
 
 .blank {
@@ -175,11 +177,9 @@ input, textarea, select, button{
 	margin: 0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-image: linear-gradient(
-			180deg,
+	background-image: linear-gradient(180deg,
 			var(--dark_green_ls),
-			var(--black_gradient_background) 74%
-	);
+			var(--black_gradient_background) 74%);
 
 	display: flex;
 	flex-direction: column;
