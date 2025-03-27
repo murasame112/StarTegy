@@ -1,8 +1,11 @@
 import React, { useState, useEffect, JSX } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { BuildOrder, Notes, Strategy, Step } from '../../models/strategy_model';
 
+import styles from './StratSingle.module.css';
+
 function StratSingle() {
+    const navigate = useNavigate();
     const [data, setData] = useState<Strategy>();
     const { id } = useParams();
 
@@ -35,7 +38,7 @@ function StratSingle() {
             priorityList.push(build);
         }
         if (priorityList.length === 0) {
-            return <div>redirect!!!</div>; // TODO: redirect
+						navigate('/');
         }
         priorityList.sort((a, b) => {
             return a.priority - b.priority;
@@ -43,32 +46,29 @@ function StratSingle() {
 
         let pageContent: JSX.Element[] = [];
 
-
         priorityList.forEach((element: BuildOrder | Notes) => {
             if (element instanceof BuildOrder) {
-                const listedBuildOrder = element.steps.map(
-                    (item: Step) => (
-                        <li key={item.t1 + '_' + item.step}>
-                            <pre>
-                                {item.t1} {item.t2 ? item.t2 : ''}{' '}
-                                {item.t1 === '' ? ' ' : '-'} {item.step}
-                            </pre>
-                        </li>
-                    )
-                );
+                const listedBuildOrder = element.steps.map((item: Step) => (
+                    <li key={item.t1 + '_' + item.step}>
+                        <pre>
+                            {item.t1} {item.t2 ? item.t2 : ''}{' '}
+                            {item.t1 === '' ? ' ' : '-'} {item.step}
+                        </pre>
+                    </li>
+                ));
                 pageContent = pageContent.concat(listedBuildOrder);
             } else if (element instanceof Notes) {
-							console.log()
-                const listedNotes = 
+                console.log();
+                const listedNotes = (
                     <div>
                         <h3>{element.note_title}</h3>
                         <br />
                         <pre>{element.note_content}</pre>
                     </div>
-                ;
+                );
                 pageContent = pageContent.concat(listedNotes);
             }
-						pageContent.push(<hr/>);
+            pageContent.push(<hr />);
         });
 
         return (
@@ -81,7 +81,7 @@ function StratSingle() {
             </div>
         );
     } else {
-        return <div>redirect!!!</div>; // TODO: redirect
+        navigate('/');
     }
 }
 
