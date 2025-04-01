@@ -159,8 +159,8 @@ function StratNewFormContent(props: FormData) {
                 </p>
                 <br />
                 <div className={styles.summaryAdditional}>
-                    <p>{props.author}</p>
-                    <p>{props.buildType}</p>
+                    <p>Author: {props.author}</p>
+                    <p>Type: {props.buildType}</p>
                 </div>
             </div>
             {props.type == Type.notes ? (

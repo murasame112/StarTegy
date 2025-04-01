@@ -1,4 +1,4 @@
-import React, { useState, useEffect, JSX } from 'react';
+import React, { useState, useEffect, JSX, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BuildOrder, Notes, Strategy, Step } from '../../models/strategy_model';
 
@@ -6,7 +6,10 @@ import styles from './StratSingle.module.css';
 
 function StratSingle() {
     const navigate = useNavigate();
+		const divRef = useRef<HTMLDivElement>(null);
     const [data, setData] = useState<Strategy>();
+		const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+		const [dataLoaded, setDataLoaded] = useState<boolean>(false);
     const { id } = useParams();
 
     useEffect(() => {
@@ -15,8 +18,17 @@ function StratSingle() {
             .then((data) => {
                 setData(data);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.log(error))
+						.then(() => {
+							setDataLoaded(true);;
+					});
     }, []);
+
+				useEffect(() => {
+						if (dataLoaded && divRef.current) {
+								setMinHeight(divRef.current.offsetHeight);
+						}
+				}, [dataLoaded]);
 
     if (data) {
         let priorityList: (BuildOrder | Notes)[] = [];
@@ -45,7 +57,8 @@ function StratSingle() {
         });
 
         let pageContent: JSX.Element[] = [];
-
+				
+				// ============== BUILD ORDER
         priorityList.forEach((element: BuildOrder | Notes) => {
             if (element instanceof BuildOrder) {
                 const listedBuildOrder = element.steps.map((item: Step) => (
@@ -57,6 +70,8 @@ function StratSingle() {
                     </li>
                 ));
                 pageContent = pageContent.concat(listedBuildOrder);
+
+								// ============== NOTE
             } else if (element instanceof Notes) {
                 console.log();
                 const listedNotes = (
@@ -71,15 +86,26 @@ function StratSingle() {
             pageContent.push(<hr />);
         });
 
+
         return (
-            <div>
-                <hr />
+						<div className='card' ref={divRef} style={{ minHeight }}>
+                <div className={styles.summary}>
+                <p className={styles.summaryTitle}>
+                    {data.title} - {data.matchup}
+                </p>
+                <br />
+                <div className={styles.summaryAdditional}>
+                    <p>Author: {data.author}</p>
+                    <p>Author: {data.build_type}</p>
+                </div>
+            </div>
                 <h2>
                     title: {data.title} --- {data.matchup.join(', ')}
                 </h2>
                 <ul>{pageContent}</ul>
             </div>
         );
+
     } else {
         navigate('/');
     }
