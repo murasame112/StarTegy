@@ -2,6 +2,8 @@ import React, { useState, useEffect, JSX, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BuildOrder, Notes, Strategy, Step } from '../../models/strategy_model';
 
+import arrow from '/pictures/arrows/06A_a2-removebg-preview.png';
+
 import styles from './StratSingle.module.css';
 
 function StratSingle() {
@@ -61,19 +63,20 @@ function StratSingle() {
 				// ============== BUILD ORDER
         priorityList.forEach((element: BuildOrder | Notes) => {
             if (element instanceof BuildOrder) {
-                const listedBuildOrder = element.steps.map((item: Step) => (
+                const listedBuildOrder = <ul className={styles.listedBuildOrder}>
+								{element.steps.map((item: Step) => (
                     <li key={item.t1 + '_' + item.step}>
                         <pre>
                             {item.t1} {item.t2 ? item.t2 : ''}{' '}
                             {item.t1 === '' ? ' ' : '-'} {item.step}
                         </pre>
                     </li>
-                ));
+                ))}
+								</ul>
                 pageContent = pageContent.concat(listedBuildOrder);
 
-								// ============== NOTE
+				// ============== NOTE
             } else if (element instanceof Notes) {
-                console.log();
                 const listedNotes = (
                     <div>
                         <h3>{element.note_title}</h3>
@@ -88,22 +91,24 @@ function StratSingle() {
 
 
         return (
+					<div className={styles.container}>
 						<div className='card' ref={divRef} style={{ minHeight }}>
                 <div className={styles.summary}>
-                <p className={styles.summaryTitle}>
-                    {data.title} - {data.matchup}
-                </p>
-                <br />
-                <div className={styles.summaryAdditional}>
-                    <p>Author: {data.author}</p>
-                    <p>Author: {data.build_type}</p>
-                </div>
+									<p className={styles.summaryTitle}>
+											{data.title} - {data.matchup}
+									</p>
+									<br />
+									<div className={styles.summaryAdditional}>
+											<p>Author: {data.author}</p>
+											<p>Type: {data.build_type}</p>
+									</div>
+            		</div>
+                {pageContent}
             </div>
-                <h2>
-                    title: {data.title} --- {data.matchup.join(', ')}
-                </h2>
-                <ul>{pageContent}</ul>
-            </div>
+						<div className={styles.dropdownToggle}>
+							<img src={arrow}></img>
+						</div>
+					</div>
         );
 
     } else {

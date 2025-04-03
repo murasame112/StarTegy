@@ -23,7 +23,7 @@ function App() {
 			<Router>
 			<Header/>
         <div className='content'>
-					<div className={'blank'}>
+					<div className='blank'>
                 <Routes>
 										<Route path="/" element={<StratList />} />
                     <Route
