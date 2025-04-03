@@ -40,6 +40,7 @@
 	padding: 0;
 	justify-content: center;
 	align-items: center;
+	z-index: 0;
 }
 
 .card {
@@ -59,6 +60,7 @@
 	overflow-x: hidden;
 	scrollbar-color: var(--light_green_ls) var(--dark_green_ls);
 	scrollbar-width: thin;
+	z-index:2;
 	background:
 		linear-gradient(rgba(0, 0, 0, 0.7),
 			rgba(0, 0, 0, 0.7));

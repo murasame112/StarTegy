@@ -8,11 +8,12 @@ import styles from './StratSingle.module.css';
 
 function StratSingle() {
     const navigate = useNavigate();
-		const divRef = useRef<HTMLDivElement>(null);
+    const divRef = useRef<HTMLDivElement>(null);
     const [data, setData] = useState<Strategy>();
-		const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
-		const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+    const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
     const { id } = useParams();
+    const [dropdown, setDropdown] = useState<boolean>(false);
 
     useEffect(() => {
         fetch('http://localhost:4200/strategy/' + id)
@@ -21,16 +22,20 @@ function StratSingle() {
                 setData(data);
             })
             .catch((error) => console.log(error))
-						.then(() => {
-							setDataLoaded(true);;
-					});
+            .then(() => {
+                setDataLoaded(true);
+            });
     }, []);
 
-				useEffect(() => {
-						if (dataLoaded && divRef.current) {
-								setMinHeight(divRef.current.offsetHeight);
-						}
-				}, [dataLoaded]);
+    useEffect(() => {
+        if (dataLoaded && divRef.current) {
+            setMinHeight(divRef.current.offsetHeight);
+        }
+    }, [dataLoaded]);
+
+		const toggleDropdown = () => {
+			setDropdown(!dropdown);
+		}
 
     if (data) {
         let priorityList: (BuildOrder | Notes)[] = [];
@@ -52,30 +57,32 @@ function StratSingle() {
             priorityList.push(build);
         }
         if (priorityList.length === 0) {
-						navigate('/');
+            navigate('/');
         }
         priorityList.sort((a, b) => {
             return a.priority - b.priority;
         });
 
         let pageContent: JSX.Element[] = [];
-				
-				// ============== BUILD ORDER
+
+        // ============== BUILD ORDER
         priorityList.forEach((element: BuildOrder | Notes) => {
             if (element instanceof BuildOrder) {
-                const listedBuildOrder = <ul className={styles.listedBuildOrder}>
-								{element.steps.map((item: Step) => (
-                    <li key={item.t1 + '_' + item.step}>
-                        <pre>
-                            {item.t1} {item.t2 ? item.t2 : ''}{' '}
-                            {item.t1 === '' ? ' ' : '-'} {item.step}
-                        </pre>
-                    </li>
-                ))}
-								</ul>
+                const listedBuildOrder = (
+                    <ul className={styles.listedBuildOrder}>
+                        {element.steps.map((item: Step) => (
+                            <li key={item.t1 + '_' + item.step}>
+                                <pre>
+                                    {item.t1} {item.t2 ? item.t2 : ''}{' '}
+                                    {item.t1 === '' ? ' ' : '-'} {item.step}
+                                </pre>
+                            </li>
+                        ))}
+                    </ul>
+                );
                 pageContent = pageContent.concat(listedBuildOrder);
 
-				// ============== NOTE
+                // ============== NOTE
             } else if (element instanceof Notes) {
                 const listedNotes = (
                     <div>
@@ -89,28 +96,27 @@ function StratSingle() {
             pageContent.push(<hr />);
         });
 
-
         return (
-					<div className={styles.container}>
-						<div className='card' ref={divRef} style={{ minHeight }}>
-                <div className={styles.summary}>
-									<p className={styles.summaryTitle}>
-											{data.title} - {data.matchup}
-									</p>
-									<br />
-									<div className={styles.summaryAdditional}>
-											<p>Author: {data.author}</p>
-											<p>Type: {data.build_type}</p>
-									</div>
-            		</div>
-                {pageContent}
+            <div className={styles.container}>
+                <div className='card' ref={divRef} style={{ minHeight }}>
+                    <div className={styles.summary}>
+                        <p className={styles.summaryTitle}>
+                            {data.title} - {data.matchup}
+                        </p>
+                        <br />
+                        <div className={styles.summaryAdditional}>
+                            <p>Author: {data.author}</p>
+                            <p>Type: {data.build_type}</p>
+                        </div>
+                    </div>
+                    {pageContent}
+                </div>
+								<div className={styles.dropdownMenu + ' ' + (dropdown ? styles.dropdownMenuOn : styles.dropdownMenuOff)}>yoo</div>
+                <button className={styles.dropdownToggle + ' ' + (dropdown ? styles.dropdownToggleOn : styles.dropdownToggleOff)} onClick={toggleDropdown}>
+                    <img src={arrow}></img>
+                </button>
             </div>
-						<div className={styles.dropdownToggle}>
-							<img src={arrow}></img>
-						</div>
-					</div>
         );
-
     } else {
         navigate('/');
     }

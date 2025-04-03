@@ -47,14 +47,23 @@
 }
 
 .dropdownToggle{
-	width:30px;
-	height:30px;
+	width: 33px;
+	height:33.5px;
 	border: 2px solid var(--dark_green_ls);
 	color: var(--light_green_hs);
 	background-color: var(--green_ls);
 	position: absolute;
-	right: -34px;
 	margin-top:30px;
+}
+
+.dropdownToggleOff{
+	right: -30px;
+	transition: right 0.3s ease-in-out; 
+}
+
+.dropdownToggleOn{
+	right: -130px;
+	transition: right 0.3s ease-in-out; 
 }
 
 .dropdownToggle img{
@@ -67,3 +76,26 @@
 	background-color: var(--dark_green);
 }
 
+.dropdownMenu{
+	position: absolute;
+	margin-top:30px;
+	width: 100px;;
+	height: 30px;
+	border: 2px solid var(--dark_green_ls);
+	color: var(--light_green_hs);
+	background-color: var(--green_ls);
+	z-index: 1;
+}
+
+.dropdownMenuOff{
+	right: -3px;
+	transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+	opacity: 0; 
+}
+
+.dropdownMenuOn{
+	right: -103px;
+	opacity: 1;
+	transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+	
+}
