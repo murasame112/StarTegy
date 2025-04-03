@@ -43,7 +43,6 @@
 	flex-direction: column;
 	position:relative;
 	margin-top:15px;
-	
 }
 
 .dropdownToggle{
@@ -85,6 +84,9 @@
 	color: var(--light_green_hs);
 	background-color: var(--green_ls);
 	z-index: 1;
+	display:flex;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .dropdownMenuOff{
@@ -96,6 +98,23 @@
 .dropdownMenuOn{
 	right: -103px;
 	opacity: 1;
-	transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out; 
-	
+	transition: right 0.3s ease-in-out, opacity 0.3s ease-in-out; 	
+}
+
+.dropdownButton {
+	width: 45px;
+	height: 23px;
+	border-radius: 25px;
+	font-size: 10px;
+}
+
+.dropdownButton:hover {
+	color: var(--light_green_ls);
+	background-color: var(--dark_green_ls);
+}
+
+.dropdownFlipped {
+	-webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+	transition: transform 0.3s ease-in-out;
 }
