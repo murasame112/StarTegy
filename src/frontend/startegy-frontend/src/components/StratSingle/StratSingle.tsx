@@ -45,6 +45,10 @@ function StratSingle() {
 			console.log('delete')
 		}
 
+		const saveStrategy = () => {
+			console.log('save');
+		}
+
     if (data) {
         let priorityList: (BuildOrder | Notes)[] = [];
         if (data.content.notes) {
@@ -122,6 +126,7 @@ function StratSingle() {
 								<div className={styles.dropdownMenu + ' ' + (dropdown ? styles.dropdownMenuOn : styles.dropdownMenuOff)}>
 								<button className={styles.dropdownButton} onClick={editStrategy}>edit</button>
 								<button className={styles.dropdownButton} onClick={deleteStrategy}>delete</button>
+								<button className={styles.dropdownButton} onClick={saveStrategy}>save</button>
 								</div>
                 <button className={styles.dropdownToggle + ' ' + (dropdown ? styles.dropdownToggleOn : styles.dropdownToggleOff)} onClick={toggleDropdown}>
                     <img src={arrow} className={dropdown ? styles.dropdownFlipped : ''}></img>
