@@ -15,6 +15,8 @@ function StratSingle() {
     const { id } = useParams();
     const [dropdown, setDropdown] = useState<boolean>(false);
 
+    let lineBreak = 58;
+
     useEffect(() => {
         fetch('http://localhost:4200/strategy/' + id)
             .then((response) => response.json())
@@ -33,21 +35,50 @@ function StratSingle() {
         }
     }, [dataLoaded]);
 
-		const toggleDropdown = () => {
-			setDropdown(!dropdown);
-		}
+    function cutLine(str: string) {
+        for (let i = lineBreak; i > 0; i--) {
+            if (str[i] === ' ' || str[i] === '\t') {
+                str = str.substring(0, i) + '\n' + str.substring(i);
+                return str;
+            }
+        }
+        str = str.substring(0, lineBreak) + '\n' + str.substring(lineBreak);
+        return str;
+    }
 
-		const editStrategy = () =>{
-			console.log('edit');
-		}
-		
-		const deleteStrategy = () => {
-			console.log('delete')
-		}
+    function formatStr(str: string) {
+			let changed: boolean = false;
+				for(let i = lineBreak; i < str.length; i += lineBreak){
+					changed = false;
+					for(let j = i; j > 0; j--){
+						if(str[j] === ' ' || str[j] === '\t'){
+							str = str.substring(0, j) + '\n' + str.substring(j);
+							changed = true;
+							break;
+						}
+					}
+					if(!changed){
+						str = str.substring(0, i) + '\n' + str.substring(i);
+					}
+				}
+				return str;
+    }
 
-		const saveStrategy = () => {
-			console.log('save');
-		}
+    const toggleDropdown = () => {
+        setDropdown(!dropdown);
+    };
+
+    const editStrategy = () => {
+        console.log('edit');
+    };
+
+    const deleteStrategy = () => {
+        console.log('delete');
+    };
+
+    const saveStrategy = () => {
+        console.log('save');
+    };
 
     if (data) {
         let priorityList: (BuildOrder | Notes)[] = [];
@@ -84,10 +115,13 @@ function StratSingle() {
                     <ul className={styles.listedBuildOrder}>
                         {element.steps.map((item: Step) => (
                             <li key={item.t1 + '_' + item.step}>
-                                <pre>
+                                <p>
                                     {item.t1} {item.t2 ? item.t2 : ''}{' '}
-                                    {item.t1 === '' ? ' ' : '-'} {item.step}
-                                </pre>
+                                    {item.t1 === '' ? ' ' : '-'}{' '}
+                                    {item.step.length > 58
+                                        ? cutLine(item.step)
+                                        : item.step}
+                                </p>
                             </li>
                         ))}
                     </ul>
@@ -100,7 +134,7 @@ function StratSingle() {
                     <div>
                         <h3>{element.note_title}</h3>
                         <br />
-                        <pre>{element.note_content}</pre>
+                        <p>{formatStr(element.note_content)}</p>
                     </div>
                 );
                 pageContent = pageContent.concat(listedNotes);
@@ -123,13 +157,48 @@ function StratSingle() {
                     </div>
                     {pageContent}
                 </div>
-								<div className={styles.dropdownMenu + ' ' + (dropdown ? styles.dropdownMenuOn : styles.dropdownMenuOff)}>
-								<button className={styles.dropdownButton} onClick={editStrategy}>edit</button>
-								<button className={styles.dropdownButton} onClick={deleteStrategy}>delete</button>
-								<button className={styles.dropdownButton} onClick={saveStrategy}>save</button>
-								</div>
-                <button className={styles.dropdownToggle + ' ' + (dropdown ? styles.dropdownToggleOn : styles.dropdownToggleOff)} onClick={toggleDropdown}>
-                    <img src={arrow} className={dropdown ? styles.dropdownFlipped : ''}></img>
+                <div
+                    className={
+                        styles.dropdownMenu +
+                        ' ' +
+                        (dropdown
+                            ? styles.dropdownMenuOn
+                            : styles.dropdownMenuOff)
+                    }
+                >
+                    <button
+                        className={styles.dropdownButton}
+                        onClick={editStrategy}
+                    >
+                        edit
+                    </button>
+                    <button
+                        className={styles.dropdownButton}
+                        onClick={deleteStrategy}
+                    >
+                        delete
+                    </button>
+                    <button
+                        className={styles.dropdownButton}
+                        onClick={saveStrategy}
+                    >
+                        save
+                    </button>
+                </div>
+                <button
+                    className={
+                        styles.dropdownToggle +
+                        ' ' +
+                        (dropdown
+                            ? styles.dropdownToggleOn
+                            : styles.dropdownToggleOff)
+                    }
+                    onClick={toggleDropdown}
+                >
+                    <img
+                        src={arrow}
+                        className={dropdown ? styles.dropdownFlipped : ''}
+                    ></img>
                 </button>
             </div>
         );

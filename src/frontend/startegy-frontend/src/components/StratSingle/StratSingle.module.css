@@ -32,10 +32,23 @@
 }
 
 .listedBuildOrder{
-	line-height: 0.2;
+	line-height: 0.9;
 	font-size:16px;
 	list-style-type: none; 
 	text-align: left;
+	white-space: pre-wrap;
+  word-wrap: break-word;
+	max-width:90%;
+}
+
+.listedBuildOrder li {
+	max-width: 90%;
+	white-space: pre-wrap; /* umożliwia zawijanie */
+  word-wrap: break-word;
+}
+
+.listedBuildOrder p {
+	max-width:100%;
 }
 
 .container{
@@ -43,6 +56,8 @@
 	flex-direction: column;
 	position:relative;
 	margin-top:15px;
+	white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .dropdownToggle{
