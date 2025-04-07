@@ -15,7 +15,7 @@ function StratSingle() {
     const { id } = useParams();
     const [dropdown, setDropdown] = useState<boolean>(false);
 
-    let lineBreak = 58;
+    let lineBreak = 62;
 
     useEffect(() => {
         fetch('http://localhost:4200/strategy/' + id)
