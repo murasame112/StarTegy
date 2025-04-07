@@ -73,11 +73,14 @@ function StratSingle() {
     };
 
     const deleteStrategy = () => {
-        console.log('delete');
+			fetch('http://localhost:4200/strategy/' + id, {
+				method: 'DELETE'
+			})
+			.catch((error) => console.log(error));
     };
 
     const saveStrategy = () => {
-        console.log('save');
+        console.log('save'); //TODO: 
     };
 
     if (data) {
