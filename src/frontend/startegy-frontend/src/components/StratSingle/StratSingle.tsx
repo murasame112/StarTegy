@@ -76,7 +76,10 @@ function StratSingle() {
 			fetch('http://localhost:4200/strategy/' + id, {
 				method: 'DELETE'
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => console.log(error))
+			.then(() => {
+				navigate('/');
+			});
     };
 
     const saveStrategy = () => {
