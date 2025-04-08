@@ -2,6 +2,7 @@
 import StratList from './components/StratList/StratList';
 import StratSingle from './components/StratSingle/StratSingle';
 import StratNew from './components/StratNew/StratNew';
+import StratEdit from './components/StratEdit/StratEdit'
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import stylesBlank from './components/Blank/Blank.module.css';
@@ -31,9 +32,9 @@ function App() {
                         element={<StratSingle />}
                     ></Route>
                     <Route path='/create' element={<StratNew/>}></Route>
-                    <Route path='/edit/id'></Route>
+                    <Route path='/edit/:id' element={<StratEdit/>}></Route>
                     <Route path='/players'></Route>
-                    <Route path='/profile/id'></Route>
+                    <Route path='/profile/:id'></Route>
                     <Route
                         path='*'
                         element={<Navigate to='/' replace />}

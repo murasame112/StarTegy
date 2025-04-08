@@ -1,5 +1,5 @@
 import React, { useState, useEffect, JSX, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { BuildOrder, Notes, Strategy, Step } from '../../models/strategy_model';
 
 import arrow from '/pictures/arrows/06A_a2-removebg-preview.png';
@@ -66,10 +66,6 @@ function StratSingle() {
 
     const toggleDropdown = () => {
         setDropdown(!dropdown);
-    };
-
-    const editStrategy = () => {
-        console.log('edit');
     };
 
     const deleteStrategy = () => {
@@ -172,12 +168,12 @@ function StratSingle() {
                             : styles.dropdownMenuOff)
                     }
                 >
+									<Link to={'/edit/' + id} >
                     <button
                         className={styles.dropdownButton}
-                        onClick={editStrategy}
                     >
                         edit
-                    </button>
+                    </button></Link>
                     <button
                         className={styles.dropdownButton}
                         onClick={deleteStrategy}
