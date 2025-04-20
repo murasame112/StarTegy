@@ -18,7 +18,7 @@ const collection_name = 'strategies';
 const collection_del = 'strategies_del';
 
 export function getAllStrategies(req: Request, res: Response) {
-    const result = mongoClient.getAllItems('strategies');
+    const result = mongoClient.getAllItems(collection_name);
     result.then((value) => {
         res.status(200).send(value);
     });
