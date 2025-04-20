@@ -115,7 +115,7 @@ export function insertUser(req: Request, res: Response) {
 		const user: User = new User(
 			req.body.login,
 			req.body.email,
-			//loginService.hashPassword(req.body.password),
+			//loginService.hashPassword(req.body.password),//TODO: login
 			req.body.password
 		);
 		const result = mongoClient.insertItem(user, table_name);
@@ -142,6 +142,40 @@ export function deleteUser(req: Request, res: Response) {
 			res.status(400).send("Error");
 			return false;
 		}
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			res.status(400).send("Error");
+		}
+  });
+}
+
+export function updateUser(req: Request, res: Response) {
+  const id = req.params.id;
+  const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
+	let strategy_id: ObjectId;
+	if (typeof query.strategies !== "undefined") {
+    let strategies_ids: ObjectId[] = [];
+    query.strategies.forEach((elem: string) => {
+    	strategy_id = new ObjectId(elem);
+      strategies_ids.push(strategy_id);
+    });
+    query.strategies = strategies_ids;
+  }
+
+	if(typeof query.password !== "undefined"){
+	//	query.password = loginService.hashPassword(query.password); //TODO: login
+		query.password = query.password;
+	}
+	
+	//query.created = global.createDateFromString(query.created); //TODO: co z data?
+  const result = mongoClient.updateItemById(id, table_name, query);
+  result.then((value) => {
 		if(value.acknowledged){
 			res.status(204).send();
 		}else{
