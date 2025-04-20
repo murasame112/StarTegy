@@ -94,3 +94,23 @@ export async function getItemsByField(query: Object, table_name: string) {
   	console.log('getItemsByField failed');
   }
 }
+
+export async function updateItemById(
+  id: string,
+  table_name: string,
+  updateQuery: Object
+) {
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+
+    const res = await table.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateQuery }
+    );
+
+    return res;
+  } catch {
+  	console.log('updateItemById fail');
+  }
+}
