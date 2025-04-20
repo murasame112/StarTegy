@@ -104,3 +104,30 @@ export function getUsersByQueriedId(req: Request, res: Response) {
     res.send(userArray);
   });
 }
+
+export function insertUser(req: Request, res: Response) {
+	/*loginService.checkIfUserExists(req.body.email).then((value) => {*/
+		// if(value == true){
+		// 	res.status(400).send("Error - user already exists");
+		// 	return false;
+		// }
+		const user: User = new User(
+			req.body.login,
+			req.body.email,
+			//loginService.hashPassword(req.body.password),
+			req.body.password
+		);
+		const result = mongoClient.insertItem(user, table_name);
+		
+		result.then((value) => {
+			if(value == null || value == undefined){
+				return false;
+			}
+			if(value.acknowledged){
+				res.status(201).send(value.insertedId);
+			}else{
+				res.status(400).send("Error");
+			}
+		});
+	//});
+}
