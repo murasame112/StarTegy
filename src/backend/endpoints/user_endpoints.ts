@@ -75,4 +75,32 @@ export function getUsersByQuery(req: Request, res: Response) {
     });
     res.send(userArray);
   });
+
+}
+// example:
+//  http://localhost:3000/usersid/strategy&6490d9efdfd298aad1e8f134
+export function getUsersByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = mongoClient.getItemsByField(query, table_name);
+  const userArray: User[] = [];
+  let user: User;
+  result.then((value) => {
+    value.forEach((element: User) => {
+      user = new User(
+        element.login,
+        element.email,
+        element.password,
+        element.active,
+				element.strategies,
+				element.created,
+				element._id
+      );
+      userArray.push(user);
+    });
+    res.send(userArray);
+  });
 }
