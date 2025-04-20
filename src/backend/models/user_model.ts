@@ -2,7 +2,6 @@ import { ObjectId } from "bson";
 
 export class User {
   login: string;
-  avatar_url: string;
   email: string;
   password: string;
   active: boolean; // false means banned
@@ -12,7 +11,6 @@ export class User {
 
   constructor(
     login: string,
-    avatar_url: string,
     email: string,
     password: string,
     active?: boolean,
@@ -21,7 +19,6 @@ export class User {
 		_id?: ObjectId
   ) {
     this.login = login;
-    this.avatar_url = avatar_url;
     this.email = email;
     this.password = password;
     this.active = active ? active : true;
