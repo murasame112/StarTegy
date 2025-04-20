@@ -78,3 +78,19 @@ export async function deleteItemById(id: ObjectId, collection_name: string) {
         console.log('deletItem failed');
     }
 }
+
+export async function getItemsByField(query: Object, table_name: string) {
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+
+    const cursor = table.find(query, {
+      sort: { _id: 1 },
+    });
+
+    const res = await cursor.toArray();
+    return res;
+  } catch {
+  	console.log('getItemsByField failed');
+  }
+}
