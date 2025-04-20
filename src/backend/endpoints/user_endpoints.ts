@@ -21,6 +21,7 @@ export function getUserById(req: Request, res: Response) {
   let user: User;
   result.then((value) => {
 		if(value == null || value == undefined){
+			res.status(400).send("Error");
 			return false;
 		}
     user = new User(
@@ -121,6 +122,7 @@ export function insertUser(req: Request, res: Response) {
 		
 		result.then((value) => {
 			if(value == null || value == undefined){
+				res.status(400).send("Error");
 				return false;
 			}
 			if(value.acknowledged){
@@ -130,4 +132,20 @@ export function insertUser(req: Request, res: Response) {
 			}
 		});
 	//});
+}
+
+export function deleteUser(req: Request, res: Response) {
+  const id = req.params.id;
+  const result = mongoClient.deleteItemById(new ObjectId(id), table_name);
+  result.then((value) => {
+		if(value == null || value == undefined){
+			res.status(400).send("Error");
+			return false;
+		}
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			res.status(400).send("Error");
+		}
+  });
 }
