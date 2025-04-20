@@ -35,3 +35,44 @@ export function getUserById(req: Request, res: Response) {
     res.status(200).send(user);
   });
 }
+
+// example:
+//  http://localhost:3000/users/active&true
+export function getUsersByQuery(req: Request, res: Response) {
+  const field = req.params.field;
+  let value: any;
+	value = req.params.value;
+	
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
+  let query = { [field]: value };
+  const result = mongoClient.getItemsByField(query, table_name);
+  const userArray: User[] = [];
+  let user: User;
+  result.then((value) => {
+    value.forEach((element: User) => {
+      user = new User(
+        element.login,
+        element.email,
+        element.password,
+        element.active,
+				element.strategies,
+				element.created,
+				element._id
+      );
+      userArray.push(user);
+    });
+    res.send(userArray);
+  });
+}
