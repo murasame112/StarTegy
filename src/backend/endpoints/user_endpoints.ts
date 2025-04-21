@@ -38,7 +38,7 @@ export function getUserById(req: Request, res: Response) {
 }
 
 // example:
-//  http://localhost:3000/users/active&true
+//  http://localhost:4200/users/active&true
 export function getUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value: any;
@@ -79,7 +79,7 @@ export function getUsersByQuery(req: Request, res: Response) {
 
 }
 // example:
-//  http://localhost:3000/usersid/strategy&6490d9efdfd298aad1e8f134
+//  http://localhost:4200/usersid/strategies&6490d9efdfd298aad1e8f134
 export function getUsersByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
@@ -116,7 +116,9 @@ export function insertUser(req: Request, res: Response) {
 			req.body.login,
 			req.body.email,
 			//loginService.hashPassword(req.body.password),//TODO: login
-			req.body.password
+			req.body.password,
+			req.body.active,
+			req.body.strategies
 		);
 		const result = mongoClient.insertItem(user, table_name);
 		
