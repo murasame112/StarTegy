@@ -1,7 +1,10 @@
 import { ObjectId } from 'bson';
 import { MongoClient, ServerApiVersion, Collection } from 'mongodb';
-const uri =
-		'mongodb+srv://tomaszwiesek00:7lXYzLOj2XqQtwOU@startegy.kk5v7m6.mongodb.net/?retryWrites=true&w=majority&appName=StarTegy';
+import fs from 'fs';
+import path from 'path'
+
+const configJson =  JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
+const uri = configJson.connectionString;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {

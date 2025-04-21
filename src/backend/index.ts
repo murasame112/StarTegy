@@ -5,6 +5,10 @@ import * as mongoClient from "./mongodb/connection"
 import * as strategyEndpoints from "./endpoints/strategy_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
 import cors from 'cors';
+import fs from 'fs'
+
+const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
+export const connectionString = configJson.connectionString;
 
 const app = express();
 app.use(express.json());
@@ -29,4 +33,4 @@ app.post("/user", userEndpoints.insertUser);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.patch("/user/:id", userEndpoints.updateUser);
 
-app.listen(4200);
+app.listen(4202);
