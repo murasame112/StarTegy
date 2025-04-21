@@ -111,6 +111,6 @@ export async function updateItemById(
 
     return res;
   } catch {
-  	console.log('updateItemById fail');
+  	console.log('updateItemById failed');
   }
 }
