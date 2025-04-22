@@ -8,6 +8,7 @@
 		"@types/express": "^5.0.0",
 		"@types/jsonwebtoken": "^9.0.9",
 		"@types/node": "^22.13.9",
+		"@types/password-hash": "^1.2.24",
 		"@types/react": "^19.0.10",
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
