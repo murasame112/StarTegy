@@ -21,5 +21,16 @@ export function verifyPassword(password: string, hash: string){
 	return passwordHash.verify(password, hash)
 }
 
+export function checkIfLogged(token: string){
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
+	const secret = configJson.secret;
+	try{
+		const payload = jwt.verify(token, secret);
+		return payload;
+	}catch (error){
+		return false;
+	}
+}
+
 export async function login(login: string, password: string) {}
 // TODO: login service
