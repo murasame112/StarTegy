@@ -185,3 +185,10 @@ export function updateUser(req: Request, res: Response) {
 		}
   });
 }
+
+export function loginUser(req: Request, res: Response) {
+  const result = loginService.login(req.body.login, req.body.password);
+	result.then((value) => {
+    res.send(value);
+  });
+}

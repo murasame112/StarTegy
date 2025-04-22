@@ -22,7 +22,7 @@ export function verifyPassword(password: string, hash: string){
 }
 
 export function checkIfLogged(token: string){
-	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
+	const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 	const secret = configJson.secret;
 	try{
 		const payload = jwt.verify(token, secret);
@@ -32,5 +32,27 @@ export function checkIfLogged(token: string){
 	}
 }
 
-export async function login(login: string, password: string) {}
-// TODO: login service
+export async function login(login: string, password: string) {
+	// zgarniecie usera o danym loginie z bazy
+	const result = await mongoClient.getItemsByField({"login": login}, 'users');
+	const user: User | undefined = result[0];
+	if(user == undefined){
+		//TODO: blad w logowaniu
+		return false;
+	}
+
+	if (!verifyPassword(password, user.password)){
+		//TODO: blad w logowaniu
+		return false;
+	}
+
+	const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
+	const secret = configJson.secret;
+	const createdPayload = {
+		"login": login,
+		"password": password
+	}
+	let token = jwt.sign(createdPayload, secret);
+	return token;
+
+}

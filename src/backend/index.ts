@@ -32,5 +32,6 @@ app.get("/usersid/:field&:value", userEndpoints.getUsersByQueriedId);
 app.post("/user", userEndpoints.insertUser);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.patch("/user/:id", userEndpoints.updateUser);
+app.post("/login", userEndpoints.loginUser);
 
 app.listen(4200);
