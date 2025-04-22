@@ -17,5 +17,9 @@ export function hashPassword(password: string){
 	return passwordHash.generate(password, {"algorithm": "sha1", "saltLength":8, "iterations":1});
 }
 
+export function verifyPassword(password: string, hash: string){
+	return passwordHash.verify(password, hash)
+}
+
 export async function login(login: string, password: string) {}
 // TODO: login service
