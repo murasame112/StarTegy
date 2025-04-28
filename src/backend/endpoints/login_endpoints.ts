@@ -12,6 +12,12 @@ import path from 'path';
 export function logUserIn(req: Request, res: Response) {
   const result = loginService.login(req.body.login, req.body.password);
 	result.then((value) => {
-    res.send(value);
+		if(value){
+			res.status(200).send(value);
+		}else{
+			res.status(400).send("Error");
+		}
   });
+
+
 }
