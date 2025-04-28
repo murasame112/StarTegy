@@ -34,7 +34,7 @@ function Login() {
 						if (!response.ok) {
 								throw new Error(`Response status: ${response.status}`);
 						}
-						//navigate("/");
+						navigate("/");
 				 } catch (error) {
 				 		alert('Could not log in');
 				 }
