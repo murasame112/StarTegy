@@ -56,3 +56,11 @@ export async function login(login: string, password: string) {
 	return token;
 
 }
+
+export async function authUser(data: string | undefined){
+	const token = data?.split(' ')[1] ?? '';
+	if(checkIfLogged(token)){
+		return true;
+	}
+	return false;
+}

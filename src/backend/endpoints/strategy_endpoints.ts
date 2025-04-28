@@ -13,6 +13,7 @@ import {
     Notes,
 } from '../models/strategy_model';
 import * as mongoClient from '../mongodb/connection';
+import {authUser} from '../services/login_service';
 
 const collection_name = 'strategies';
 const collection_del = 'strategies_del';
@@ -24,7 +25,11 @@ export function getAllStrategies(req: Request, res: Response) {
     });
 }
 
-export function getStrategyById(req: Request, res: Response) {
+export async function getStrategyById(req: Request, res: Response) {
+		if(!await authUser(req.headers.authorization)){
+			res.status(401).send("Error - unauthorized");
+		}
+		
     const id = req.params.id;
     const result = mongoClient.getItemById(id, collection_name);
 
