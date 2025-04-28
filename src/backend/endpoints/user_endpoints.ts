@@ -115,7 +115,7 @@ export function insertUser(req: Request, res: Response) {
 		const user: User = new User(
 			req.body.login,
 			req.body.email,
-			//loginService.hashPassword(req.body.password),//TODO: login
+			loginService.hashPassword(req.body.password),
 			req.body.password,
 			req.body.active,
 			req.body.strategies
@@ -171,7 +171,7 @@ export function updateUser(req: Request, res: Response) {
   }
 
 	if(typeof query.password !== "undefined"){
-	//	query.password = loginService.hashPassword(query.password); //TODO: login
+		query.password = loginService.hashPassword(query.password);
 		query.password = query.password;
 	}
 	
