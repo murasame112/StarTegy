@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import * as mongoClient from "./mongodb/connection"
 import * as strategyEndpoints from "./endpoints/strategy_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
+import * as loginEndpoints from "./endpoints/login_endpoints";
 import cors from 'cors';
 import fs from 'fs'
 
@@ -24,7 +25,6 @@ app.delete("/strategy/:id", strategyEndpoints.deleteStrategy);
 
 // ============ user endopints ============
 
-
 app.get("/users", userEndpoints.getAllUsers);
 app.get("/user/:id", userEndpoints.getUserById);
 app.get("/users/:field&:value", userEndpoints.getUsersByQuery);
@@ -32,6 +32,9 @@ app.get("/usersid/:field&:value", userEndpoints.getUsersByQueriedId);
 app.post("/user", userEndpoints.insertUser);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.patch("/user/:id", userEndpoints.updateUser);
-app.post("/login", userEndpoints.loginUser);
+
+// ============ login endopints ============
+
+app.post("/login", loginEndpoints.logUserIn);
 
 app.listen(4200);

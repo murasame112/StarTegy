@@ -8,3 +8,10 @@ import * as loginService from "../services/login_service";
 import { JwtPayload } from "jsonwebtoken";
 import fs from 'fs';
 import path from 'path';
+
+export function logUserIn(req: Request, res: Response) {
+  const result = loginService.login(req.body.login, req.body.password);
+	result.then((value) => {
+    res.send(value);
+  });
+}
