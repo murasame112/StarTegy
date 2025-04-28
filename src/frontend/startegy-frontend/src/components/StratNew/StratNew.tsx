@@ -40,10 +40,6 @@ function StratNew() {
         }
     };
 
-    const cl = () => {
-        console.log(formMetaData);
-    };
-
     return (
         <>
 							<div className='card'>
