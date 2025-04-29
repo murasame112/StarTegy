@@ -26,10 +26,11 @@ export function getAllStrategies(req: Request, res: Response) {
 }
 
 export async function getStrategyById(req: Request, res: Response) {
-		if(!await authUser(req.headers.authorization)){
-			res.status(401).send("Error - unauthorized");
+		if(!await authUser(req.cookies.token)){
+			res.status(401).json({ message: 'Error - unauthorized' });
+			return;
 		}
-		
+
     const id = req.params.id;
     const result = mongoClient.getItemById(id, collection_name);
 

@@ -7,13 +7,20 @@ import * as userEndpoints from "./endpoints/user_endpoints";
 import * as loginEndpoints from "./endpoints/login_endpoints";
 import cors from 'cors';
 import fs from 'fs'
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
 
 const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
 export const connectionString = configJson.connectionString;
+const secret = configJson.secret;
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 mongoClient.run();
 
 // ============ strategy endpoints ============
@@ -36,5 +43,6 @@ app.patch("/user/:id", userEndpoints.updateUser);
 // ============ login endopints ============
 
 app.post("/login", loginEndpoints.logUserIn);
+app.post("/logout", loginEndpoints.logout);
 
 app.listen(4200);

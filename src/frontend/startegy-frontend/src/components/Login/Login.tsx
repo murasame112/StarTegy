@@ -24,12 +24,12 @@ function Login() {
 					try {
 						const response = await fetch('http://localhost:4200/login', {
 								method: 'POST',
+								credentials: 'include',
 								headers: {
 										'Content-Type': 'application/json',
 								},
 								body: JSON.stringify(data),
 						});
-						const responseData = await response.text();
 
 						if (!response.ok) {
 								throw new Error(`Response status: ${response.status}`);
