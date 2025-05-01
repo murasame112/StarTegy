@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Strategy } from '../../models/strategy_model';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 // ===== components =====
 import StratListItem from '../StratListItem/StratListItem';
 
@@ -9,6 +9,7 @@ import StratListItem from '../StratListItem/StratListItem';
 import styles from './StratList.module.css';
 
 function StratList() {
+		const navigate = useNavigate();
     const divRef = useRef<HTMLDivElement>(null);
     const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
     const [dataLoaded, setDataLoaded] = useState<boolean>(false);
@@ -30,18 +31,34 @@ function StratList() {
         ZvZ: false,
     });
 
-    useEffect(() => {
-        fetch('http://localhost:4200/all')
-            .then((response) => response.json())
-            .then((data) => {
-                setData(data);
-                setFilteredData(data);
-            })
-            .catch((error) => console.log(error))
-            .then(() => {
-                setDataLoaded(true);
-            });
-    }, []);
+				useEffect(() => {
+					const fetchData = async () => {
+						try {
+							const res = await fetch('http://localhost:4200/all', {
+								credentials: 'include'
+							});
+			
+							if (res.status === 401) {
+								navigate('/login');
+								return;
+							}
+			
+							if (!res.ok) {
+								throw new Error('Fetch failed');
+							}
+			
+							const data = await res.json();
+							setData(data);
+							setFilteredData(data);
+						} catch (error) {
+							console.log(error);
+						} finally {
+							setDataLoaded(true);
+						}
+					};
+			
+					fetchData();
+				}, [navigate]);
 
     useEffect(() => {
         if (dataLoaded && divRef.current) {

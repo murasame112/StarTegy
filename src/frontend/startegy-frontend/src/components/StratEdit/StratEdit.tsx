@@ -15,17 +15,33 @@ function StratEdit() {
     const [parsedBuild, setParsedBuild] = useState<Step[]>([]);
 		const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    useEffect(() => {
-        fetch('http://localhost:4200/strategy/' + id)
-            .then((response) => response.json())
-            .then((data) => {
-                setData(data);
-            })
-            .catch((error) => console.log(error))
-            .then(() => {
-                setDataLoaded(true);
-            });
-    }, []);
+				useEffect(() => {
+					const fetchData = async () => {
+						try {
+							const res = await fetch('http://localhost:4200/strategy/' + id, {
+								credentials: 'include'
+							});
+			
+							if (res.status === 401) {
+								navigate('/login');
+								return;
+							}
+			
+							if (!res.ok) {
+								throw new Error('Fetch failed');
+							}
+			
+							const data = await res.json();
+							setData(data);
+						} catch (error) {
+							console.log(error);
+						} finally {
+							setDataLoaded(true);
+						}
+					};
+			
+					fetchData();
+				}, [id, navigate]);
 
     useEffect(() => {
         if (dataLoaded && divRef.current) {

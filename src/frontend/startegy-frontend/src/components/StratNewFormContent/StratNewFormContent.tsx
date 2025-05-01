@@ -136,11 +136,17 @@ function StratNewFormContent(props: FormData) {
         try {
             const response = await fetch('http://localhost:4200/strategy', {
                 method: 'POST',
+								credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(strat),
             });
+
+						if (response.status === 401) {
+							navigate('/login');
+							return;
+						}
 
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);

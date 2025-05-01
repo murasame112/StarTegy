@@ -13,12 +13,17 @@ import {
     Notes,
 } from '../models/strategy_model';
 import * as mongoClient from '../mongodb/connection';
-import {authUser} from '../services/login_service';
+import { authUser } from '../services/login_service';
 
 const collection_name = 'strategies';
 const collection_del = 'strategies_del';
 
-export function getAllStrategies(req: Request, res: Response) {
+export async function getAllStrategies(req: Request, res: Response) {
+    if (!(await authUser(req.cookies.token))) {
+        res.status(401).json({ message: 'Error - unauthorized' });
+        return;
+    }
+
     const result = mongoClient.getAllItems(collection_name);
     result.then((value) => {
         res.status(200).send(value);
@@ -26,10 +31,10 @@ export function getAllStrategies(req: Request, res: Response) {
 }
 
 export async function getStrategyById(req: Request, res: Response) {
-		if(!await authUser(req.cookies.token)){
-			res.status(401).json({ message: 'Error - unauthorized' });
-			return;
-		}
+    if (!(await authUser(req.cookies.token))) {
+        res.status(401).json({ message: 'Error - unauthorized' });
+        return;
+    }
 
     const id = req.params.id;
     const result = mongoClient.getItemById(id, collection_name);
@@ -58,7 +63,11 @@ export async function getStrategyById(req: Request, res: Response) {
     });
 }
 
-export function insertStrategy(req: Request, res: Response) {
+export async function insertStrategy(req: Request, res: Response) {
+    if (!(await authUser(req.cookies.token))) {
+        res.status(401).json({ message: 'Error - unauthorized' });
+        return;
+    }
     const bd = req.body;
 
     const strategy: Strategy = new Strategy(
@@ -83,13 +92,16 @@ export function insertStrategy(req: Request, res: Response) {
     });
 }
 
-export function deleteStrategy(req: Request, res: Response) {
+export async function deleteStrategy(req: Request, res: Response) {
+    if (!(await authUser(req.cookies.token))) {
+        res.status(401).json({ message: 'Error - unauthorized' });
+        return;
+    }
     const id = new ObjectId(req.params.id);
     const record = mongoClient.getItemById(req.params.id, collection_name);
 
     record.then((getValue: any) => {
         if (getValue) {
-
             const inserted = mongoClient.insertItem(getValue, collection_del);
 
             inserted.then((insertValue: any) => {
