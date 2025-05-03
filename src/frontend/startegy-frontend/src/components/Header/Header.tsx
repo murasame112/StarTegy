@@ -1,10 +1,11 @@
 import styles from './Header.module.css';
 import logo from '/pictures/logo/logo-three_s-removebg-preview.png';
+import { useAuth } from '../../context/auth-context';
 import {useNavigate} from 'react-router-dom';
 
 function Header() {
 	const navigate = useNavigate();
-
+	const { isLoggedIn } = useAuth();
 	
 
 	const toStratlist = () => {
@@ -26,6 +27,13 @@ function Header() {
                     <h3>Starcraft 2 build order tool</h3>
                 </div>
             </div>
+						<div>
+						{isLoggedIn && (
+							<button className='buttonSecondary'>
+								User
+							</button>
+      			)}
+						</div>
         </div>
     );
 }

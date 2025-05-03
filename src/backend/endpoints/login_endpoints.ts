@@ -16,8 +16,8 @@ export function logUserIn(req: Request, res: Response) {
 			const token = value;
 			res.cookie('token', token, {
 				httpOnly: true,
-				sameSite: 'lax', // lub 'Strict'/'None' zależnie od potrzeb
-				secure: false // true na produkcji z HTTPS
+				sameSite: 'lax',
+				secure: false
 			});
 			res.json({ message: 'Logged in' });
 		}else{
@@ -29,4 +29,19 @@ export function logUserIn(req: Request, res: Response) {
 export function logout(req: Request, res: Response) {
 	res.clearCookie('token');
   res.json({ message: 'Logged out' });
+}
+
+export function checkAuth(req: Request, res: Response) {
+	const token = req.cookies.token;
+  if (!token) {
+		res.status(401).send();
+		return;
+	}
+
+  try {
+    loginService.authUser(token);
+    res.status(200).send();
+  } catch {
+    res.status(401).send();
+  }
 }

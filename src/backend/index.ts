@@ -42,7 +42,9 @@ app.patch("/user/:id", userEndpoints.updateUser);
 
 // ============ login endopints ============
 
+app.get("/check-auth", loginEndpoints.checkAuth);
 app.post("/login", loginEndpoints.logUserIn);
 app.post("/logout", loginEndpoints.logout);
+
 
 app.listen(4200);
