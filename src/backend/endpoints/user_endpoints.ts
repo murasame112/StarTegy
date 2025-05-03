@@ -107,18 +107,15 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 }
 
 export function insertUser(req: Request, res: Response) {
-	/*loginService.checkIfUserExists(req.body.email).then((value) => {*/
-		// if(value == true){
-		// 	res.status(400).send("Error - user already exists");
-		// 	return false;
-		// }
+	loginService.checkIfUserExists(req.body.email, req.body.login).then((value) => {
+		if(value == true){
+			res.status(400).send("Error - user already exists");
+			return false;
+		}
 		const user: User = new User(
 			req.body.login,
 			req.body.email,
-			loginService.hashPassword(req.body.password),
-			req.body.password,
-			req.body.active,
-			req.body.strategies
+			loginService.hashPassword(req.body.password)
 		);
 		const result = mongoClient.insertItem(user, table_name);
 		
@@ -133,7 +130,7 @@ export function insertUser(req: Request, res: Response) {
 				res.status(400).send("Error");
 			}
 		});
-	//});
+	});
 }
 
 export function deleteUser(req: Request, res: Response) {

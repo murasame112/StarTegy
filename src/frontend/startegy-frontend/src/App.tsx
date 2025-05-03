@@ -4,6 +4,7 @@ import StratSingle from './components/StratSingle/StratSingle';
 import StratNew from './components/StratNew/StratNew';
 import StratEdit from './components/StratEdit/StratEdit';
 import Login from './components/Login/Login';
+import Registration from './components/Registration/Registration';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import stylesBlank from './components/Blank/Blank.module.css';
@@ -18,6 +19,7 @@ import {
 
 // ===== styles =====
 import './index.css';
+
 
 
 function App() {
@@ -37,6 +39,7 @@ function App() {
                     <Route path='/players'></Route>
                     <Route path='/profile/:id'></Route>
 										<Route path='/login' element={<Login/>}></Route>
+										<Route path='/registration' element={<Registration/>}></Route>
                     <Route
                         path='*'
                         element={<Navigate to='/' replace />}

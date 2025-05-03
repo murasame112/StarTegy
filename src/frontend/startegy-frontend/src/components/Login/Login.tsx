@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css';
 
 function Login() {
@@ -57,8 +57,13 @@ function Login() {
 												onChange={updatePassword}
                     ></input>
                 </div>
-                <div>
-                    <button className='buttonPrimary' onClick={logUserIn}>send</button>
+                <div className={styles.buttons}>
+										<div>
+                    	<button className='buttonPrimary' onClick={logUserIn}>Login</button>
+										</div>
+										<Link to={'/registration'}>
+                    	<button className='buttonSecondary'>Register</button>
+										</Link>
                 </div>
             </div>
         </div>
