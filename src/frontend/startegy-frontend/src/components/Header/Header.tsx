@@ -2,16 +2,42 @@ import styles from './Header.module.css';
 import logo from '/pictures/logo/logo-three_s-removebg-preview.png';
 import { useAuth } from '../../context/auth-context';
 import {useNavigate} from 'react-router-dom';
+import React, { useRef, useEffect, useState} from 'react';
 
 function Header() {
 	const navigate = useNavigate();
 	const { isLoggedIn } = useAuth();
-	
+	const [userMenuVisible, setuserMenuVisible] = useState<boolean>(false);
+	const [userMenuPosition, setUserMenuPosition] = useState({top: 0, left: 0});
+	const targetRef = useRef<HTMLButtonElement>(null);
 
 	const toStratlist = () => {
 		navigate("/");
 	}
 
+	useEffect(() => {
+		const updateUserMenuPosition = () => {
+			const rect = targetRef.current?.getBoundingClientRect();
+			if (rect){
+				setUserMenuPosition({
+					top: rect.bottom + window.scrollY,
+					left: rect.left + window.scrollX
+				});	
+			}
+		};
+
+		updateUserMenuPosition();
+		window.addEventListener('resize', updateUserMenuPosition);
+		window.addEventListener('scroll', updateUserMenuPosition, true);
+
+		return () => {
+			window.removeEventListener('resize', updateUserMenuPosition);
+			window.removeEventListener('scroll', updateUserMenuPosition, true);
+		}
+
+	}, []);
+
+	
     return (
         <div className={styles.header}>
             <div className={styles.content} onClick={toStratlist}>
@@ -29,11 +55,35 @@ function Header() {
             </div>
 						<div>
 						{isLoggedIn && (
-							<button className='buttonSecondary'>
+							<button
+							className={
+								userMenuVisible
+										? 'buttonSecondaryActive'
+										: 'buttonSecondary'
+						}
+						onClick={() => {
+								setuserMenuVisible(!userMenuVisible);
+						}}
+						ref={targetRef}
+						>
 								User
 							</button>
       			)}
+												{userMenuVisible && (
+                              <div
+															style={{
+																position: 'absolute',
+																top: userMenuPosition.top,
+																left: userMenuPosition.left
+																
+															}}
+															className = {styles.userMenu}
+														>
+													<p>user menu</p>
+                        </div>
+                    )}
 						</div>
+
         </div>
     );
 }
