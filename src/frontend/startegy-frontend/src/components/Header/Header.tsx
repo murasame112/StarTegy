@@ -16,6 +16,7 @@ function Header() {
 	}
 
 	useEffect(() => {
+		console.log(isLoggedIn);
 		const updateUserMenuPosition = () => {
 			const rect = targetRef.current?.getBoundingClientRect();
 			if (rect){

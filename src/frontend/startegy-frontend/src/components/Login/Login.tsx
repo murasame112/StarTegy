@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useAuth } from '../../context/auth-context';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css';
 
@@ -7,7 +7,7 @@ function Login() {
 		const [login, setLogin] = useState<string>('');
 		const [password, setPassword] = useState<string>('');
 		const navigate = useNavigate();
-
+		const { setIsLoggedIn } = useAuth();
         const updateLogin = (event: any) => {
             setLogin(event.target.value);
         };
@@ -34,6 +34,7 @@ function Login() {
 						if (!response.ok) {
 								throw new Error(`Response status: ${response.status}`);
 						}
+						setIsLoggedIn(true);   
 						navigate("/");
 				 } catch (error) {
 				 		alert('Could not log in');
