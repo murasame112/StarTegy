@@ -6,7 +6,7 @@ import React, { useRef, useEffect, useState} from 'react';
 
 function Header() {
 	const navigate = useNavigate();
-	const { isLoggedIn } = useAuth();
+	const { isLoggedIn, logout } = useAuth();
 	const [userMenuVisible, setuserMenuVisible] = useState<boolean>(false);
 	const [userMenuPosition, setUserMenuPosition] = useState({top: 0, left: 0});
 	const targetRef = useRef<HTMLButtonElement>(null);
@@ -37,7 +37,12 @@ function Header() {
 
 	}, []);
 
-	
+	const handleLogout = () => {
+		logout();
+		navigate('/login');
+		setuserMenuVisible(false);
+	}
+
     return (
         <div className={styles.header}>
             <div className={styles.content} onClick={toStratlist}>
@@ -79,7 +84,11 @@ function Header() {
 															}}
 															className = {styles.userMenu}
 														>
-													<p>user menu</p>
+													<ul>
+														<li>Profile</li>
+														<hr/>
+														<li onClick={handleLogout}>Logout</li>
+													</ul>
                         </div>
                     )}
 						</div>

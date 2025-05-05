@@ -72,14 +72,27 @@ h3 {
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: start;
-	
-
 	padding: '4px';
+	width: 96px;
 	color: var(--light_green_hs);
 	background-color: var(--green_ls);
 	border: 3px solid var(--dark_green_ls);
+	z-index: 15;
 	background:
-		linear-gradient(rgba(0, 0, 0, 0.9),
-			rgba(0, 0, 0, 0.9)); 
+		linear-gradient(rgba(0, 0, 0),
+			rgba(0, 0, 0)); 
 
+}
+
+.userMenu > ul {
+	list-style-type: none;
+	padding-left: 10px;
+}
+
+.userMenu > ul li{
+	cursor: pointer;
+}
+
+.userMenu > ul li:hover{
+	color: var(--light_green_ls);
 }

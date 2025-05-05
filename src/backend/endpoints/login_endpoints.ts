@@ -27,7 +27,11 @@ export function logUserIn(req: Request, res: Response) {
 }
 
 export function logout(req: Request, res: Response) {
-	res.clearCookie('token');
+	res.clearCookie('token', {
+		httpOnly: true,
+    sameSite: 'lax',
+    secure: false
+	});
   res.json({ message: 'Logged out' });
 }
 
