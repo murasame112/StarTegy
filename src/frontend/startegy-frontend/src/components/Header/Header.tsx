@@ -1,13 +1,13 @@
 import styles from './Header.module.css';
 import logo from '/pictures/logo/logo-three_s-removebg-preview.png';
 import { useAuth } from '../../context/auth-context';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import React, { useRef, useEffect, useState} from 'react';
 
 function Header() {
 	const navigate = useNavigate();
 	const { isLoggedIn, logout } = useAuth();
-	const [userMenuVisible, setuserMenuVisible] = useState<boolean>(false);
+	const [userMenuVisible, setUserMenuVisible] = useState<boolean>(false);
 	const [userMenuPosition, setUserMenuPosition] = useState({top: 0, left: 0});
 	const targetRef = useRef<HTMLButtonElement>(null);
 
@@ -19,7 +19,6 @@ function Header() {
 		
 		const updateUserMenuPosition = () => {
 			const rect = targetRef.current?.getBoundingClientRect();
-			console.log(rect);
 			if (rect){
 				setUserMenuPosition({
 					top: rect.bottom + window.scrollY,
@@ -46,7 +45,7 @@ function Header() {
 	const handleLogout = () => {
 		logout();
 		navigate('/login');
-		setuserMenuVisible(false);
+		setUserMenuVisible(false);
 	}
 
     return (
@@ -73,7 +72,7 @@ function Header() {
 										: 'buttonSecondary'
 						}
 						onClick={() => {
-								setuserMenuVisible(!userMenuVisible);
+								setUserMenuVisible(!userMenuVisible);
 						}}
 						ref={targetRef}
 						>
@@ -91,7 +90,7 @@ function Header() {
 															className = {styles.userMenu}
 														>
 													<ul>
-														<li>Profile</li>
+														<Link to={'/profile'}><li>Profile</li></Link>
 														<hr/>
 														<li onClick={handleLogout}>Logout</li>
 													</ul>

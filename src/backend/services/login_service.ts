@@ -49,11 +49,9 @@ export async function login(login: string, password: string) {
 }
 
 export async function authUser(token: string | undefined ){
-
   if (!token){
 		return false;
 	} 
-
 
   try {
     const payload = jwt.verify(token, secret);

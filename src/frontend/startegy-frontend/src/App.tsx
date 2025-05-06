@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import Registration from './components/Registration/Registration';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Profile from './components/Profile/Profile';
 import stylesBlank from './components/Blank/Blank.module.css';
 import {
     BrowserRouter as Router,
@@ -19,6 +20,7 @@ import {
 
 // ===== styles =====
 import './index.css';
+
 
 
 
@@ -37,7 +39,7 @@ function App() {
                     <Route path='/create' element={<StratNew/>}></Route>
                     <Route path='/edit/:id' element={<StratEdit/>}></Route>
                     <Route path='/players'></Route>
-                    <Route path='/profile/:id'></Route>
+                    <Route path='/profile' element={<Profile/>}></Route>
 										<Route path='/login' element={<Login/>}></Route>
 										<Route path='/registration' element={<Registration/>}></Route>
                     <Route
