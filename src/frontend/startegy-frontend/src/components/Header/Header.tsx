@@ -16,9 +16,10 @@ function Header() {
 	}
 
 	useEffect(() => {
-		console.log(isLoggedIn);
+		
 		const updateUserMenuPosition = () => {
 			const rect = targetRef.current?.getBoundingClientRect();
+			console.log(rect);
 			if (rect){
 				setUserMenuPosition({
 					top: rect.bottom + window.scrollY,
@@ -27,7 +28,11 @@ function Header() {
 			}
 		};
 
-		updateUserMenuPosition();
+		
+		if (targetRef.current) {
+			updateUserMenuPosition();
+		}
+
 		window.addEventListener('resize', updateUserMenuPosition);
 		window.addEventListener('scroll', updateUserMenuPosition, true);
 
@@ -36,7 +41,7 @@ function Header() {
 			window.removeEventListener('scroll', updateUserMenuPosition, true);
 		}
 
-	}, []);
+	}, [targetRef.current, isLoggedIn]);
 
 	const handleLogout = () => {
 		logout();
