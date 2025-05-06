@@ -5,9 +5,7 @@ import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
 import * as mongoClient from '../mongodb/connection';
 import * as loginService from "../services/login_service";
-import { JwtPayload } from "jsonwebtoken";
-import fs from 'fs';
-import path from 'path';
+import { authUser } from '../services/login_service';
 
 export function logUserIn(req: Request, res: Response) {
   const result = loginService.login(req.body.login, req.body.password);
@@ -48,4 +46,14 @@ export function checkAuth(req: Request, res: Response) {
   } catch {
     res.status(401).send();
   }
+}
+
+export async function me(req: Request, res: Response) {
+	let payload = await authUser(req.cookies.token)
+	if (!(payload)) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
+	res.status(200).send(payload);
+
 }

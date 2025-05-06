@@ -45,6 +45,7 @@ app.patch("/user/:id", userEndpoints.updateUser);
 app.get("/check-auth", loginEndpoints.checkAuth);
 app.post("/login", loginEndpoints.logUserIn);
 app.post("/logout", loginEndpoints.logout);
+app.get("/me", loginEndpoints.me);
 
 
 app.listen(4200);

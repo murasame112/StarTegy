@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from './Profile.module.css';
 import { useNavigate } from 'react-router-dom';
-import {User} from '../../models/user_model'
+import {User} from '../../models/user_model';
+import { useAuth } from '../../context/auth-context';
+
 
 function Profile() {
     const [email, setEmail] = useState<string>('');
@@ -9,11 +11,18 @@ function Profile() {
     const [repeatedPassword, setRepeatedPassword] = useState<string>('');
     const [data, setData] = useState<User>();
 		const navigate = useNavigate();
+		const { user, loading } = useAuth();
 
-    useEffect(() => {
+
+			useEffect(() => {
+				if (loading) return;
+				if (!user) {
+					navigate('/login');
+					return;
+				}
         const fetchData = async () => {
             try {
-                const res = await fetch('http://localhost:4200/users', {
+                const res = await fetch('http://localhost:4200/user/' + user?.id, {
                     credentials: 'include',
                 });
 
@@ -25,9 +34,8 @@ function Profile() {
                 if (!res.ok) {
                     throw new Error('Fetch failed');
                 }
-
+								console.log(user);
                 const data = await res.json();
-								console.log(data);
                 setData(data);
             } catch (error) {
                 console.log(error);
@@ -35,7 +43,9 @@ function Profile() {
         };
 
         fetchData();
-    }, [navigate]);
+    }, [user, loading, navigate]);
+		
+
 
     const updatePassword = (event: any) => {
         setPassword(event.target.value);

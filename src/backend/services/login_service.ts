@@ -41,7 +41,7 @@ export async function login(login: string, password: string) {
 
 	const createdPayload = {
 		"login": login,
-		"password": password
+		"id": user._id
 	}
 	let token = jwt.sign(createdPayload, secret);
 	return token;

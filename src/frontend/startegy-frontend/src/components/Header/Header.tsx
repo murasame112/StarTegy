@@ -10,13 +10,13 @@ function Header() {
 	const [userMenuVisible, setUserMenuVisible] = useState<boolean>(false);
 	const [userMenuPosition, setUserMenuPosition] = useState({top: 0, left: 0});
 	const targetRef = useRef<HTMLButtonElement>(null);
+	
 
 	const toStratlist = () => {
 		navigate("/");
 	}
 
 	useEffect(() => {
-		
 		const updateUserMenuPosition = () => {
 			const rect = targetRef.current?.getBoundingClientRect();
 			if (rect){
