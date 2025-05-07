@@ -17,33 +17,36 @@ function StratSingle() {
 
     let lineBreak = 62;
 
-		useEffect(() => {
-			const fetchData = async () => {
-				try {
-					const res = await fetch('http://localhost:4200/strategy/' + id, {
-						credentials: 'include'
-					});
-	
-					if (res.status === 401) {
-						navigate('/login');
-						return;
-					}
-	
-					if (!res.ok) {
-						throw new Error('Fetch failed');
-					}
-	
-					const data = await res.json();
-					setData(data);
-				} catch (error) {
-					console.log(error);
-				} finally {
-					setDataLoaded(true);
-				}
-			};
-	
-			fetchData();
-		}, [id, navigate]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch(
+                    'http://localhost:4200/strategy/' + id,
+                    {
+                        credentials: 'include',
+                    }
+                );
+
+                if (res.status === 401) {
+                    navigate('/login');
+                    return;
+                }
+
+                if (!res.ok) {
+                    throw new Error('Fetch failed');
+                }
+
+                const data = await res.json();
+                setData(data);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setDataLoaded(true);
+            }
+        };
+
+        fetchData();
+    }, [id, navigate]);
 
     useEffect(() => {
         if (dataLoaded && divRef.current) {
@@ -63,21 +66,21 @@ function StratSingle() {
     }
 
     function formatStr(str: string) {
-			let changed: boolean = false;
-				for(let i = lineBreak; i < str.length; i += lineBreak){
-					changed = false;
-					for(let j = i; j > 0; j--){
-						if(str[j] === ' ' || str[j] === '\t'){
-							str = str.substring(0, j) + '\n' + str.substring(j);
-							changed = true;
-							break;
-						}
-					}
-					if(!changed){
-						str = str.substring(0, i) + '\n' + str.substring(i);
-					}
-				}
-				return str;
+        let changed: boolean = false;
+        for (let i = lineBreak; i < str.length; i += lineBreak) {
+            changed = false;
+            for (let j = i; j > 0; j--) {
+                if (str[j] === ' ' || str[j] === '\t') {
+                    str = str.substring(0, j) + '\n' + str.substring(j);
+                    changed = true;
+                    break;
+                }
+            }
+            if (!changed) {
+                str = str.substring(0, i) + '\n' + str.substring(i);
+            }
+        }
+        return str;
     }
 
     const toggleDropdown = () => {
@@ -85,17 +88,17 @@ function StratSingle() {
     };
 
     const deleteStrategy = () => {
-			fetch('http://localhost:4200/strategy/' + id, {
-				method: 'DELETE'
-			})
-			.catch((error) => console.log(error))
-			.then(() => {
-				navigate('/');
-			});
+        fetch('http://localhost:4200/strategy/' + id, {
+            method: 'DELETE',
+        })
+            .catch((error) => console.log(error))
+            .then(() => {
+                navigate('/');
+            });
     };
 
     const saveStrategy = () => {
-        console.log('save'); //TODO: 
+        console.log('save'); //TODO:
     };
 
     if (data) {
@@ -184,12 +187,9 @@ function StratSingle() {
                             : styles.dropdownMenuOff)
                     }
                 >
-									<Link to={'/edit/' + id} >
-                    <button
-                        className={styles.dropdownButton}
-                    >
-                        edit
-                    </button></Link>
+                    <Link to={'/edit/' + id}>
+                        <button className={styles.dropdownButton}>edit</button>
+                    </Link>
                     <button
                         className={styles.dropdownButton}
                         onClick={deleteStrategy}
