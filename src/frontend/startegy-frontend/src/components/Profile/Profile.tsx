@@ -9,20 +9,16 @@ function Profile() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [repeatedPassword, setRepeatedPassword] = useState<string>('');
-    const [data, setData] = useState<User>();
+    const [data, setData] = useState<User | undefined>();
 		const navigate = useNavigate();
-		const { user, loading } = useAuth();
+		const { userAuth } = useAuth();
 
 
 			useEffect(() => {
-				if (loading) return;
-				if (!user) {
-					navigate('/login');
-					return;
-				}
+				if (!userAuth) return;
         const fetchData = async () => {
             try {
-                const res = await fetch('http://localhost:4200/user/' + user?.id, {
+                const res = await fetch('http://localhost:4200/user/' + userAuth?.id, {
                     credentials: 'include',
                 });
 
@@ -34,7 +30,7 @@ function Profile() {
                 if (!res.ok) {
                     throw new Error('Fetch failed');
                 }
-								console.log(user);
+								
                 const data = await res.json();
                 setData(data);
             } catch (error) {
@@ -42,8 +38,8 @@ function Profile() {
             }
         };
 
-        fetchData();
-    }, [user, loading, navigate]);
+        if (userAuth) fetchData();
+    }, [userAuth, navigate]);
 		
 
 
@@ -60,10 +56,16 @@ function Profile() {
     const updateUser = () => {
         console.log('update user');
     };
-    return (
-        // - zmiana hasla
-        // -
+
+		if(data){
+			return (
+
         <div className='card' style={{ width: '800px' }}>
+						<div>
+							<h2>Username: {data.login}</h2>
+						</div>
+
+
             <div className={styles.creationForm}>
                 <div>
                     <div className={styles.creationForm}>
@@ -95,6 +97,8 @@ function Profile() {
             </div>
         </div>
     );
+		}
+
 }
 
 export default Profile;

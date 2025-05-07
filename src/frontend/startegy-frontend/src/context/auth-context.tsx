@@ -9,19 +9,17 @@ type UserAuth = {
 type AuthContextType = {
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
-	user: UserAuth | null,
-	setUser: (user: UserAuth | null) => void;
+	userAuth: UserAuth | null,
+	setUserAuth: (user: UserAuth | null) => void;
   logout: () => void;
-	loading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   setIsLoggedIn: () => {},
-	user: null,
-	setUser: () => {},
-  logout: () => {},
-	loading: true
+	userAuth: null,
+	setUserAuth: () => {},
+  logout: () => {}
 });
 
 type AuthProviderProps = {
@@ -31,8 +29,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [user, setUser] = useState<UserAuth | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+	const [userAuth, setUserAuth] = useState<UserAuth | null>(null);
 
   useEffect(() => {
     fetch('http://localhost:4200/check-auth', {
@@ -49,17 +46,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			})    
 			.then((res) => res?.json())
 			.then((data) => {
-				if (data) setUser(data); 
+				if (data) setUserAuth(data); 
 			})
       .catch(() =>{ 
 				setIsLoggedIn(false);
-				setUser(null);
-			})
-			.finally(() => {
-				setLoading(false);
-			}
-
-			);
+				setUserAuth(null);
+			});
   }, []);
 
   const logout = () => {
@@ -72,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser, logout, loading }}>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, userAuth, setUserAuth, logout }}>
       {children}
     </AuthContext.Provider>
   );
