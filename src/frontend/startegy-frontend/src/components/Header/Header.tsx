@@ -42,10 +42,15 @@ function Header() {
 
 	}, [targetRef.current, isLoggedIn]);
 
+	const handleProfile = () => {
+		setUserMenuVisible(false);
+		navigate('/profile');
+	}
+
 	const handleLogout = () => {
+		setUserMenuVisible(false);
 		logout();
 		navigate('/login');
-		setUserMenuVisible(false);
 	}
 
     return (
@@ -90,7 +95,7 @@ function Header() {
 															className = {styles.userMenu}
 														>
 													<ul>
-														<Link to={'/profile'}><li>Profile</li></Link>
+														<li onClick={handleProfile}>Profile</li>
 														<hr/>
 														<li onClick={handleLogout}>Logout</li>
 													</ul>
