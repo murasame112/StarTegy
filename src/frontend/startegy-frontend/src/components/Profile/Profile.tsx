@@ -55,11 +55,16 @@ function Profile() {
     };
 
     const updateUser = async () => {
-
 								const user: any = {};
 
-								if(password !== '' && password === repeatedPassword){
-									user.password = password;
+								if(password !== ''){
+									if(password !== repeatedPassword){
+										alert('Passwords are not matching');
+										return;
+									}else{
+										user.password = password;
+									}
+									
 								}
 								if(email !== ''){
 									user.email = email;
