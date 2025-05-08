@@ -5,17 +5,26 @@ import e, { Request, Response } from "express";
 import { User } from "../models/user_model";;
 import * as loginService from "../services/login_service";
 import * as mongoClient from '../mongodb/connection';
+import { authUser } from '../services/login_service';
 
 const table_name = "users";
 
-export function getAllUsers(req: Request, res: Response) {
+export async function getAllUsers(req: Request, res: Response) {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
   const result = mongoClient.getAllItems(table_name);
   result.then((value) => {
     res.status(200).send(value);
   });
 }
 
-export function getUserById(req: Request, res: Response) {
+export async function getUserById(req: Request, res: Response) {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
   const id = req.params.id;
   const result = mongoClient.getItemById(id, table_name);
   let user: User;
@@ -39,7 +48,11 @@ export function getUserById(req: Request, res: Response) {
 
 // example:
 //  http://localhost:4200/users/active&true
-export function getUsersByQuery(req: Request, res: Response) {
+export async function getUsersByQuery(req: Request, res: Response) {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -80,7 +93,11 @@ export function getUsersByQuery(req: Request, res: Response) {
 }
 // example:
 //  http://localhost:4200/usersid/strategies&6490d9efdfd298aad1e8f134
-export function getUsersByQueriedId(req: Request, res: Response) {
+export async function getUsersByQueriedId(req: Request, res: Response) {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -106,7 +123,11 @@ export function getUsersByQueriedId(req: Request, res: Response) {
   });
 }
 
-export function insertUser(req: Request, res: Response) {
+export async function insertUser(req: Request, res: Response) {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
 	loginService.checkIfUserExists(req.body.email, req.body.login).then((value) => {
 		if(value == true){
 			res.status(400).send("Error - user already exists");
@@ -133,7 +154,11 @@ export function insertUser(req: Request, res: Response) {
 	});
 }
 
-export function deleteUser(req: Request, res: Response) {
+export async function deleteUser(req: Request, res: Response) {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
   const id = req.params.id;
   const result = mongoClient.deleteItemById(new ObjectId(id), table_name);
   result.then((value) => {
@@ -149,13 +174,13 @@ export function deleteUser(req: Request, res: Response) {
   });
 }
 
-export function updateUser(req: Request, res: Response) {
+export async function updateUser(req: Request, res: Response) {
+			if (!(await authUser(req.cookies.token))) {
+					res.status(401).json({ message: 'Error - unauthorized' });
+					return;
+			}
   const id = req.params.id;
   const query = req.body;
-
-	if (typeof query._id !== "undefined") {
-    query._id = new ObjectId(query._id);
-  }
 
 	let strategy_id: ObjectId;
 	if (typeof query.strategies !== "undefined") {

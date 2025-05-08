@@ -193,7 +193,6 @@ button {
 	background-image: linear-gradient(180deg,
 			var(--dark_green_ls),
 			var(--black_gradient_background) 74%);
-
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
