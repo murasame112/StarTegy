@@ -124,10 +124,6 @@ export async function getUsersByQueriedId(req: Request, res: Response) {
 }
 
 export async function insertUser(req: Request, res: Response) {
-	if (!(await authUser(req.cookies.token))) {
-		res.status(401).json({ message: 'Error - unauthorized' });
-		return;
-	}
 	loginService.checkIfUserExists(req.body.email, req.body.login).then((value) => {
 		if(value == true){
 			res.status(400).send("Error - user already exists");

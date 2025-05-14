@@ -22,7 +22,7 @@
 }
 
 .summaryAdditional{
-	min-width:55%;
+	min-width:65%;
 	display:flex;
 	justify-content: space-between;
 }

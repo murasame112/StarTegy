@@ -30,7 +30,6 @@ function Registration() {
             email: email,
             password: password,
         };
-
         if (password === repeatedPassword) {
             try {
                 const response = await fetch('http://localhost:4200/user', {

@@ -64,7 +64,8 @@ export async function getStrategyById(req: Request, res: Response) {
 }
 
 export async function insertStrategy(req: Request, res: Response) {
-    if (!(await authUser(req.cookies.token))) {
+		let payload = await authUser(req.cookies.token);
+    if (!payload) {
         res.status(401).json({ message: 'Error - unauthorized' });
         return;
     }
@@ -75,8 +76,8 @@ export async function insertStrategy(req: Request, res: Response) {
         bd.title,
         bd.matchup,
         bd.author,
-        bd.uploaded_by,
-        bd.type,
+        payload.login,
+				bd.type,
         bd.build_type,
         bd.tags,
         bd.content

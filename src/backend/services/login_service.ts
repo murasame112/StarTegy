@@ -47,13 +47,19 @@ export async function login(login: string, password: string) {
 
 }
 
+type MyPayload = {
+  login: string;
+  id: string;
+	iat?: number;
+};
+
 export async function authUser(token: string | undefined ){
   if (!token){
 		return false;
 	} 
 
   try {
-    const payload = jwt.verify(token, secret);
+    const payload = jwt.verify(token, secret) as MyPayload;
     return payload;
   } catch (err) {
     return false;

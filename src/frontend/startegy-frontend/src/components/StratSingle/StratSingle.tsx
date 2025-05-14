@@ -172,7 +172,8 @@ function StratSingle() {
                         </p>
                         <br />
                         <div className={styles.summaryAdditional}>
-                            <p>Author: {data.author}</p>
+                            <p>Author: {data.author}</p> |
+														<p>Uploaded by: {data.uploaded_by}</p> |
                             <p>Type: {data.build_type}</p>
                         </div>
                     </div>
