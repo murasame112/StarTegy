@@ -25,7 +25,6 @@ export function verifyPassword(password: string, hash: string){
 }
 
 export async function login(login: string, password: string) {
-	// zgarniecie usera o danym loginie z bazy
 	const result = await mongoClient.getItemsByField({"login": login}, 'users');
 	const user: User | undefined = result[0];
 	if(user == undefined){

@@ -9,12 +9,23 @@ import cors from 'cors';
 import fs from 'fs'
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
+import { Resend } from 'resend';
 
 const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
 export const connectionString = configJson.connectionString;
 const secret = configJson.secret;
+const resendApi = configJson.resend;
 
 const app = express();
+const resend = new Resend(resendApi);
+
+// resend.emails.send({
+// 	from:'onboarding@resend.dev',
+// 	to:'afraid333@protonmail.com',
+// 	subject:'Hello',
+// 	html:'<p>test2</p>'
+// });
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
