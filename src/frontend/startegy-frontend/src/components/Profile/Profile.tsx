@@ -10,6 +10,7 @@ function Profile() {
     const [password, setPassword] = useState<string>('');
     const [repeatedPassword, setRepeatedPassword] = useState<string>('');
     const [data, setData] = useState<User | undefined>();
+		const [stratCount, setStratCount] = useState<number>(0);
 		const [updated, setUpdated] = useState<boolean>(false);
 		const navigate = useNavigate();
 		const { userAuth } = useAuth();
@@ -27,13 +28,19 @@ function Profile() {
                     navigate('/login');
                     return;
                 }
+								const strats = await fetch('http://localhost:4200/strategies/uploaded_by&' + userAuth?.login, {
+									credentials: 'include'
+								});
 
-                if (!res.ok) {
+                if (!res.ok || !strats.ok) {
                     throw new Error('Fetch failed');
                 }
 								
                 const data = await res.json();
                 setData(data);
+								const stratsAny: any[] = await strats.json();
+								setStratCount(stratsAny.length);
+								//setStratCount(strats.j);
             } catch (error) {
                 console.log(error);
             } finally{
@@ -108,8 +115,7 @@ function Profile() {
 								<span className={styles.userText}>{data.login}</span>
               </p>
 							<p>Email: <span className={styles.userText}>{data.email}</span></p>
-							<p>Uploaded strategies: <span className={styles.userText}>15</span></p>
-							{/* TODO: ^ powyzej ma nie byc 15 tylko obliczane */}
+							<p>Uploaded strategies: <span className={styles.userText}>{stratCount}</span></p>
 							<p>Joined:  <span className={styles.userText}>{new Date(data.created).toLocaleDateString("en-GB")}</span></p>
 							
 							<br />
