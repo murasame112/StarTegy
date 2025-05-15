@@ -7,7 +7,7 @@ function Login() {
 		const [login, setLogin] = useState<string>('');
 		const [password, setPassword] = useState<string>('');
 		const navigate = useNavigate();
-		const { setIsLoggedIn } = useAuth();
+		const { setUserAuth, setIsLoggedIn } = useAuth();
         const updateLogin = (event: any) => {
             setLogin(event.target.value);
         };
@@ -35,6 +35,11 @@ function Login() {
 								throw new Error(`Response status: ${response.status}`);
 						}
 						setIsLoggedIn(true);   
+						const userRes = await fetch("http://localhost:4200/me", {
+							credentials: "include",
+						});
+						const userData = await userRes.json();
+    				setUserAuth(userData); 
 						navigate("/");
 				 } catch (error) {
 				 		alert('Could not log in');

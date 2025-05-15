@@ -38,6 +38,7 @@ mongoClient.run();
 
 app.get('/all', strategyEndpoints.getAllStrategies);
 app.get('/strategy/:id', strategyEndpoints.getStrategyById);
+app.get('/strategies/:field&:value', strategyEndpoints.getStrategiesByField);
 app.post("/strategy", strategyEndpoints.insertStrategy);
 app.delete("/strategy/:id", strategyEndpoints.deleteStrategy);
 

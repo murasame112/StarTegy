@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Strategy } from '../../models/strategy_model';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/auth-context';
 // ===== components =====
 import StratListItem from '../StratListItem/StratListItem';
 
@@ -9,6 +10,7 @@ import StratListItem from '../StratListItem/StratListItem';
 import styles from './StratList.module.css';
 
 function StratList() {
+		const { userAuth } = useAuth();
 		const navigate = useNavigate();
     const divRef = useRef<HTMLDivElement>(null);
     const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
@@ -32,9 +34,12 @@ function StratList() {
     });
 
 				useEffect(() => {
+					if (!userAuth) {
+						return;
+					}
 					const fetchData = async () => {
 						try {
-							const res = await fetch('http://localhost:4200/all', {
+							const res = await fetch('http://localhost:4200/strategies/uploaded_by&' + userAuth?.login, {
 								credentials: 'include'
 							});
 			
@@ -58,7 +63,7 @@ function StratList() {
 					};
 			
 					fetchData();
-				}, [navigate]);
+				}, [userAuth, navigate]);
 
     useEffect(() => {
         if (dataLoaded && divRef.current) {

@@ -17,7 +17,7 @@ export function logUserIn(req: Request, res: Response) {
 				sameSite: 'lax',
 				secure: false
 			});
-			res.json({ message: 'Logged in' });
+			res.json({ message: 'Logged in'});
 		}else{
 			res.status(400).send("Error");
 		}

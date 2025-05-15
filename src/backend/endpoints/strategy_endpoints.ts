@@ -19,7 +19,8 @@ const collection_name = 'strategies';
 const collection_del = 'strategies_del';
 
 export async function getAllStrategies(req: Request, res: Response) {
-    if (!(await authUser(req.cookies.token))) {
+		let payload = await authUser(req.cookies.token);
+    if (!payload) {
         res.status(401).json({ message: 'Error - unauthorized' });
         return;
     }
@@ -60,6 +61,43 @@ export async function getStrategyById(req: Request, res: Response) {
             value._id
         );
         res.send(strategy);
+    });
+}
+
+//  http://localhost:3000/notes/published&true
+export async function getStrategiesByField(req: Request, res: Response) {
+		let payload = await authUser(req.cookies.token);
+    if (!payload) {
+        res.status(401).json({ message: 'Error - unauthorized' });
+        return;
+    }
+	
+  const field = req.params.field;
+  let value: any; 
+	value = req.params.value;
+
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
+  let query = { [field]: value };
+	const result = mongoClient.getItemsByField(query, collection_name);
+	
+  result.then((value) => {
+		       if (value === null) {
+            res.send(null);
+            return;
+        }
+				 res.status(200).send(value);
     });
 }
 
