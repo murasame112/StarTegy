@@ -18,8 +18,8 @@ export function logUserIn(req: Request, res: Response) {
 				secure: false
 			});
 			res.json({ message: 'Logged in'});
-		}else{
-			res.status(400).send("Error");
+		} else {
+  		res.status(400).json({ message: "Incorrect login or password" });
 		}
   });
 }

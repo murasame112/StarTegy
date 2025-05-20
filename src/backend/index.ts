@@ -10,6 +10,7 @@ import fs from 'fs'
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import { Resend } from 'resend';
+import rateLimit from 'express-rate-limit';
 
 const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
 export const connectionString = configJson.connectionString;
@@ -25,6 +26,14 @@ const resend = new Resend(resendApi);
 // 	subject:'Hello',
 // 	html:'<p>test2</p>'
 // });
+
+const loginLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 5,
+	message: 'Too many login attempts, please try again later.',
+	standardHeaders: true,
+	legacyHeaders: false,
+});
 
 app.use(express.json());
 app.use(cookieParser());
@@ -55,7 +64,7 @@ app.patch("/user/:id", userEndpoints.updateUser);
 // ============ login endopints ============
 
 app.get("/check-auth", loginEndpoints.checkAuth);
-app.post("/login", loginEndpoints.logUserIn);
+app.post("/login", loginLimiter, loginEndpoints.logUserIn);
 app.post("/logout", loginEndpoints.logout);
 app.get("/me", loginEndpoints.me);
 

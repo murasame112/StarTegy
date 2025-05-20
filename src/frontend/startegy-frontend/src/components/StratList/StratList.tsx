@@ -10,7 +10,7 @@ import StratListItem from '../StratListItem/StratListItem';
 import styles from './StratList.module.css';
 
 function StratList() {
-		const { userAuth } = useAuth();
+		const { userAuth, isLoggedIn } = useAuth();
 		const navigate = useNavigate();
     const divRef = useRef<HTMLDivElement>(null);
     const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
@@ -34,6 +34,10 @@ function StratList() {
     });
 
 				useEffect(() => {
+					if(!isLoggedIn){
+						navigate('/login');
+						return;
+					}
 					if (!userAuth) {
 						return;
 					}
@@ -63,7 +67,7 @@ function StratList() {
 					};
 			
 					fetchData();
-				}, [userAuth, navigate]);
+				}, [userAuth, navigate, isLoggedIn]);
 
     useEffect(() => {
         if (dataLoaded && divRef.current) {

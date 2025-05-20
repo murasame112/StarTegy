@@ -32,7 +32,15 @@ function Login() {
 						});
 
 						if (!response.ok) {
-								throw new Error(`Response status: ${response.status}`);
+								const errorText = await response.text(); // możesz też użyć .json(), jeśli zawsze wysyłasz JSON
+								if (response.status === 400) {
+									alert('Incorrect login or password');
+								} else if (response.status === 429) {
+									alert('Too many login attempts, please try again later.');
+								} else {
+									alert(`Unexpected error: ${response.status} - ${errorText}`);
+								}
+								return;
 						}
 						setIsLoggedIn(true);   
 						const userRes = await fetch("http://localhost:4200/me", {
@@ -41,9 +49,10 @@ function Login() {
 						const userData = await userRes.json();
     				setUserAuth(userData); 
 						navigate("/");
-				 } catch (error) {
-				 		alert('Could not log in');
-				 }
+				 }catch (error) {
+						alert('Network error or server unreachable');
+						console.error(error);
+					}
 			};
 	
     return (
