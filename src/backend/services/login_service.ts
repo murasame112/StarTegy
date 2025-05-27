@@ -4,9 +4,14 @@ import { User } from "../models/user_model";
 import fs from 'fs';
 import path from 'path';
 import * as mongoClient from '../mongodb/connection';
+import { ObjectId } from 'mongodb';
+import { Resend } from 'resend';
 
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const secret = configJson.secret;
+const resendApi = configJson.resend;
+const resend = new Resend(resendApi);
+const domainEmail = configJson.domainEmail;
 
 export async function checkIfUserExists(userEmail: string, userLogin: string){
 	const result = await mongoClient.getItemsByField({"email": userEmail, "login": userLogin}, 'users');
@@ -64,4 +69,20 @@ export async function authUser(token: string | undefined ){
   } catch (err) {
     return false;
   }
+}
+
+export async function sendConfirmationEmail(id: ObjectId, email: string){
+	const verificationToken = jwt.sign(
+		{ userId: id },
+		'secret_for_verification',
+		{ expiresIn: '1h' }
+	);
+
+	await resend.emails.send({
+  from: domainEmail,
+  to: email,
+  subject: 'Verify your account',
+  html: `<p>Click <a href="http://localhost:5173/verify?token=${verificationToken}">here</a> to verify your account.</p>`,
+});
+
 }

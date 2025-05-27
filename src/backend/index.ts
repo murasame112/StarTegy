@@ -16,6 +16,7 @@ const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8
 export const connectionString = configJson.connectionString;
 const secret = configJson.secret;
 const resendApi = configJson.resend;
+const domainEmail = configJson.domainEmail;
 
 const app = express();
 const resend = new Resend(resendApi);
