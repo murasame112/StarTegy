@@ -1,5 +1,6 @@
 import { Console } from "console";
 import { ObjectId } from "bson";
+import jwt from 'jsonwebtoken';
 import express from "express";
 import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
@@ -55,5 +56,22 @@ export async function me(req: Request, res: Response) {
 		return;
 	}
 	res.status(200).send(payload);
+
+}
+
+export async function verifyUser(req: Request, res: Response): Promise<any> {
+	const { token } = req.query;
+	if (typeof token !== 'string') {
+    return res.status(400).send('Token is missing or invalid');
+  }
+  try {
+    const payload = jwt.verify(token, 'secret_for_verification') as { userId: string };
+
+	 	await mongoClient.updateItemById(payload.userId, 'users', { verified: true });
+
+    res.status(200).send('Account verified!');
+  } catch (err) {
+    res.status(400).send('Invalid or expired token');
+  }
 
 }

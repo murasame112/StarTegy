@@ -68,6 +68,6 @@ app.get("/check-auth", loginEndpoints.checkAuth);
 app.post("/login", loginLimiter, loginEndpoints.logUserIn);
 app.post("/logout", loginEndpoints.logout);
 app.get("/me", loginEndpoints.me);
-
+app.get("/verify", loginEndpoints.verifyUser);
 
 app.listen(4200);
