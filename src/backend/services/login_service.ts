@@ -41,6 +41,11 @@ export async function login(login: string, password: string) {
 		//TODO: blad w logowaniu
 		return false;
 	}
+	if (!user.verified) {
+  //return res.status(403).send('Please verify your email before logging in.');
+	//TODO: blad w logowaniu
+		return false;
+	}
 
 
 	const createdPayload = {
