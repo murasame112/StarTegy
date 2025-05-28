@@ -40,6 +40,7 @@ export async function getUserById(req: Request, res: Response) {
       value.active,
 			value.strategies,
 			value.created,
+			value.verified,
 			value._id
     );
     res.status(200).send(user);
@@ -83,6 +84,7 @@ export async function getUsersByQuery(req: Request, res: Response) {
         element.active,
 				element.strategies,
 				element.created,
+				element.verified,
 				element._id
       );
       userArray.push(user);
@@ -115,6 +117,7 @@ export async function getUsersByQueriedId(req: Request, res: Response) {
         element.active,
 				element.strategies,
 				element.created,
+				element.verified,
 				element._id
       );
       userArray.push(user);
