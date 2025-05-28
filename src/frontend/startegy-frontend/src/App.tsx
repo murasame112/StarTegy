@@ -20,6 +20,7 @@ import {
 
 // ===== styles =====
 import './index.css';
+import VerifyPage from './components/VerifyPage/VerifyPage';
 
 
 
@@ -42,6 +43,7 @@ function App() {
                     <Route path='/profile' element={<Profile/>}></Route>
 										<Route path='/login' element={<Login/>}></Route>
 										<Route path='/registration' element={<Registration/>}></Route>
+										<Route path='/verify' element={<VerifyPage/>}></Route>
                     <Route
                         path='*'
                         element={<Navigate to='/' replace />}
