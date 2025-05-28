@@ -139,7 +139,9 @@ export async function insertUser(req: Request, res: Response) {
 		);
 		const result = mongoClient.insertItem(user, table_name);
 		
+		
 		result.then((value) => {
+			loginService.sendConfirmationEmail(value!.insertedId, /*TODO: req.body.email*/'tomaszwiesek00@gmail.com');
 			if(value == null || value == undefined){
 				res.status(400).send("Error");
 				return false;

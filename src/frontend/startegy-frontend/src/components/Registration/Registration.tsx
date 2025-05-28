@@ -43,7 +43,7 @@ function Registration() {
                 if (!response.ok) {
                     throw new Error(`Response status: ${response.status}`);
                 }
-                navigate('/login');
+                navigate('/verify');
             } catch (error) {
                 alert('Could not log in');
             }
