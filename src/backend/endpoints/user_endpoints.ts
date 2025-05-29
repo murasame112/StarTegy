@@ -40,6 +40,7 @@ export async function getUserById(req: Request, res: Response) {
       value.active,
 			value.strategies,
 			value.created,
+			value.pendingPassword,
 			value.verified,
 			value._id
     );
@@ -84,6 +85,7 @@ export async function getUsersByQuery(req: Request, res: Response) {
         element.active,
 				element.strategies,
 				element.created,
+				element.pendingPassword,
 				element.verified,
 				element._id
       );
@@ -117,6 +119,7 @@ export async function getUsersByQueriedId(req: Request, res: Response) {
         element.active,
 				element.strategies,
 				element.created,
+				element.pendingPassword,
 				element.verified,
 				element._id
       );

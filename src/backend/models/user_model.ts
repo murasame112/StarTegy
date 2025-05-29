@@ -7,7 +7,8 @@ export class User {
   active: boolean; // false means banned
   strategies: Array<ObjectId>;
 	created: Date;
-	verified?: boolean;
+	pendingPassword: string;
+	verified: boolean;
 	_id?: ObjectId;
 
   constructor(
@@ -17,6 +18,7 @@ export class User {
     active?: boolean,
     strategies?: Array<ObjectId>,
 		created?: Date,
+		pendingPassword?: string,
 		verified?: boolean,
 		_id?: ObjectId
   ) {
@@ -26,6 +28,7 @@ export class User {
     this.active = active ? active : true;
     this.strategies = strategies ? strategies : [];
 		this.created = created ? created : new Date();
+		this.pendingPassword = pendingPassword ? pendingPassword : '';
 		this.verified = verified ? verified : false;
 		this._id = _id ? _id : undefined;
   }
