@@ -6,7 +6,7 @@ import * as strategyEndpoints from "./endpoints/strategy_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
 import * as loginEndpoints from "./endpoints/login_endpoints";
 import cors from 'cors';
-import fs from 'fs'
+import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import { Resend } from 'resend';
@@ -14,19 +14,8 @@ import rateLimit from 'express-rate-limit';
 
 const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
 export const connectionString = configJson.connectionString;
-const secret = configJson.secret;
-const resendApi = configJson.resend;
-const domainEmail = configJson.domainEmail;
 
 const app = express();
-const resend = new Resend(resendApi);
-
-// resend.emails.send({
-// 	from:'onboarding@resend.dev',
-// 	to:'afraid333@protonmail.com',
-// 	subject:'Hello',
-// 	html:'<p>test2</p>'
-// });
 
 const loginLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
@@ -61,6 +50,7 @@ app.get("/usersid/:field&:value", userEndpoints.getUsersByQueriedId);
 app.post("/user", userEndpoints.insertUser);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.patch("/user/:id", userEndpoints.updateUser);
+app.post("/request-password-reset", userEndpoints.requestPasswordReset);
 
 // ============ login endopints ============
 

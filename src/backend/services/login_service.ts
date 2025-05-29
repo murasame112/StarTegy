@@ -6,6 +6,7 @@ import path from 'path';
 import * as mongoClient from '../mongodb/connection';
 import { ObjectId } from 'mongodb';
 import { Resend } from 'resend';
+import { sendEmail } from './email_service';
 
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const secret = configJson.secret;
@@ -83,11 +84,5 @@ export async function sendConfirmationEmail(id: ObjectId, email: string){
 		{ expiresIn: '1h' }
 	);
 
-	await resend.emails.send({
-  from: domainEmail,
-  to: email,
-  subject: 'Verify your account',
-  html: `<p>Click <a href="http://localhost:5173/verify?token=${verificationToken}">here</a> to verify your account.</p>`,
-});
-
+	await sendEmail(email, 'Verify your account', `<p>Click <a href="http://localhost:5173/verify?token=${verificationToken}">here</a> to verify your account.</p>`);
 }
