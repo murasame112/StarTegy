@@ -51,6 +51,7 @@ app.post("/user", userEndpoints.insertUser);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.patch("/user/:id", userEndpoints.updateUser);
 app.post("/request-password-reset", userEndpoints.requestPasswordReset);
+app.get("/verify-password-reset/:token", userEndpoints.verifyPasswordReset);
 
 // ============ login endopints ============
 

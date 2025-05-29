@@ -1,13 +1,21 @@
 import { Console } from "console";
 import { ObjectId } from "bson";
 import express from "express";
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
 import e, { Request, Response } from "express";
 import { User } from "../models/user_model";;
 import * as loginService from "../services/login_service";
 import * as mongoClient from '../mongodb/connection';
 import { authUser } from '../services/login_service';
+import { sendEmail } from '../services/email_service';
 
 const table_name = "users";
+
+
+const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
+const resetPasswordSecret = configJson.resetPasswordSecret;
 
 export async function getAllUsers(req: Request, res: Response) {
 	if (!(await authUser(req.cookies.token))) {
@@ -210,4 +218,78 @@ export async function updateUser(req: Request, res: Response) {
 			res.status(400).send("Error");
 		}
   });
+}
+
+export async function requestPasswordReset(req: Request, res: Response){
+		if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
+
+	const { email, newPassword } = req.body;
+  const result = mongoClient.getItemById(email, table_name);
+  let user: User;
+  result.then((value) => {
+		if(value == null || value == undefined){
+			res.status(400).send("Error");
+			return false;
+		}
+    user = new User(
+      value.login,
+      value.email,
+      value.password,
+      value.active,
+			value.strategies,
+			value.created,
+			value.pendingPassword,
+			value.verified,
+			value._id
+    );
+
+		const pendingHash = loginService.hashPassword(newPassword);
+		const updateResult = mongoClient.updateItemById(user._id!.toString(), table_name,  { pendingPasswordHash: pendingHash });
+		
+		updateResult.then((val) => {
+			const token = jwt.sign(
+				{ userId: user._id },
+				resetPasswordSecret,
+				{ expiresIn: "15m" }
+			);
+
+			  const resetLink = `http://localhost:5173/verify-password-reset?token=${token}`;
+				sendEmail(user.email, 'Reset your password', `<p>Click <a href='${resetLink}'>here</a> to confirm your password change.</p>`);
+				res.status(204).send("Verification email sent");
+
+		});
+  });
+}
+
+export async function verifyPasswordReset(req: Request, res: Response): Promise<any> {
+	if (!(await authUser(req.cookies.token))) {
+		res.status(401).json({ message: 'Error - unauthorized' });
+		return;
+	}
+
+	const token = req.params.token;
+	if (!token || typeof token !== "string") {
+    return res.status(400).send("Invalid token");
+  }
+
+	try {
+		const payload = jwt.verify(token, resetPasswordSecret) as {userId: string};
+		const user = await mongoClient.getItemById(payload.userId, table_name);
+
+		if(!user || !user.pendingPasswordHash) {
+			return res.status(400).send("No password reset pending");
+		}
+
+		await mongoClient.updateItemById(payload.userId, table_name, {
+			passwordHash: user.pendingPasswordHash,
+			pendingPasswordHash: ""
+		});
+
+		res.status(204).send("Password reset successful");
+	} catch (err) {
+		res.status(400).send("Invalid or expired token");
+	}
 }
