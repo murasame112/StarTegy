@@ -1,7 +1,8 @@
 import fs from 'fs';
+import path from 'path';
 import { Resend } from 'resend';
 
-const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
+const configJson =  JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const resendApi = configJson.resend;
 const domainEmail = configJson.domainEmail;
 const resend = new Resend(resendApi);
