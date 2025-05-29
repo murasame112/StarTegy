@@ -10,6 +10,7 @@ import { Resend } from 'resend';
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const secret = configJson.secret;
 const resendApi = configJson.resend;
+const verificationSecret = configJson.verificationSecret;
 const resend = new Resend(resendApi);
 const domainEmail = configJson.domainEmail;
 
@@ -79,7 +80,7 @@ export async function authUser(token: string | undefined ){
 export async function sendConfirmationEmail(id: ObjectId, email: string){
 	const verificationToken = jwt.sign(
 		{ userId: id },
-		'secret_for_verification',
+		verificationSecret,
 		{ expiresIn: '1h' }
 	);
 

@@ -3,10 +3,16 @@ import { ObjectId } from "bson";
 import jwt from 'jsonwebtoken';
 import express from "express";
 import e, { Request, Response } from "express";
+import fs from 'fs';
+import path from 'path';
 import { User } from "../models/user_model";
 import * as mongoClient from '../mongodb/connection';
 import * as loginService from "../services/login_service";
 import { authUser } from '../services/login_service';
+
+const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
+const verificationSecret = configJson.verificationSecret;
+
 
 export function logUserIn(req: Request, res: Response) {
   const result = loginService.login(req.body.login, req.body.password);
@@ -65,7 +71,7 @@ export async function verifyUser(req: Request, res: Response): Promise<any> {
     return res.status(400).send('Token is missing or invalid');
   }
   try {
-    const payload = jwt.verify(token, 'secret_for_verification') as { userId: string };
+    const payload = jwt.verify(token, verificationSecret) as { userId: string };
 
 	 	await mongoClient.updateItemById(payload.userId, 'users', { verified: true });
 
