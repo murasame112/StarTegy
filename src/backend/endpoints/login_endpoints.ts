@@ -18,6 +18,17 @@ export function logUserIn(req: Request, res: Response) {
   const result = loginService.login(req.body.login, req.body.password);
 	result.then((value) => {
 		if(value){
+			 if(typeof value === 'number'){
+				switch(value){
+					case 403:
+						res.status(value).json({ message: "Please verify your email before logging in." });
+						break;
+					default:
+						res.status(value).json({ message: "Incorrect login or password" });
+				}
+				return;
+			 }
+			console.log(typeof value);
 			const token = value;
 			res.cookie('token', token, {
 				httpOnly: true,
@@ -29,6 +40,8 @@ export function logUserIn(req: Request, res: Response) {
   		res.status(400).json({ message: "Incorrect login or password" });
 		}
   });
+	
+
 }
 
 export function logout(req: Request, res: Response) {

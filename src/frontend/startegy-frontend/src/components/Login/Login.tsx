@@ -30,14 +30,18 @@ function Login() {
 								},
 								body: JSON.stringify(data),
 						});
+						console.log(response);
 
 						if (!response.ok) {
 								const errorText = await response.text(); // możesz też użyć .json(), jeśli zawsze wysyłasz JSON
+								
 								if (response.status === 400) {
 									alert('Incorrect login or password');
+								} else if (response.status === 403) {
+									alert('Please verify your email before logging in.');
 								} else if (response.status === 429) {
 									alert('Too many login attempts, please try again later.');
-								} else {
+								}else {
 									alert(`Unexpected error: ${response.status} - ${errorText}`);
 								}
 								return;
