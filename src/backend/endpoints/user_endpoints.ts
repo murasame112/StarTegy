@@ -257,7 +257,7 @@ export async function requestPasswordReset(req: Request, res: Response){
 			);
 
 			  const resetLink = `http://localhost:5173/verify-password-reset?token=${token}`;
-				sendEmail(user.email, 'Reset your password', `<p>Click <a href='${resetLink}'>here</a> to confirm your password change.</p>`);
+				sendEmail(/*user.email*/ 'tomaszwiesek00@gmail.com', 'Reset your password', `<p>Click <a href='${resetLink}'>here</a> to confirm your password change.</p>`);
 				res.status(204).send("Verification email sent");
 
 		});

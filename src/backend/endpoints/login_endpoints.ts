@@ -28,7 +28,6 @@ export function logUserIn(req: Request, res: Response) {
 				}
 				return;
 			 }
-			console.log(typeof value);
 			const token = value;
 			res.cookie('token', token, {
 				httpOnly: true,
