@@ -35,6 +35,7 @@ function StratList() {
 
 				useEffect(() => {
 					if(!isLoggedIn){
+						
 						navigate('/login');
 						return;
 					}

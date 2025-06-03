@@ -68,32 +68,11 @@ function Profile() {
 
     const updateUser = async () => {
         const user: any = {};
+				let alertStr = '';
         // chce osobno obslugiwac maile i osobno haslo. na mail leci osobny call do api i na haslo osobny, ale pod jednym przyciskiem
 
         try {
-            if (password !== '') {
-                if (password !== repeatedPassword) {
-                    alert('Passwords are not matching');
-                    return;
-                }
-                user.password = password;
-								const res = await fetch("http://localhost:4200/request-password-reset", {
-									method: "POST",
-									headers: { "Content-Type": "application/json" },
-									body: JSON.stringify({
-										email: data!.email,
-										newPassword: password
-									})
-								});
-
-								if (res.ok) {
-									alert("Check your email for a confirmation link");
-								} else {
-									alert("Failed to initiate password reset");
-								}
-                
-            }
-            if (email !== '') {
+					  if (email !== '') {
                 user.email = email;
                 const response = await fetch(
                     'http://localhost:4200/user/' + data?._id,
@@ -113,8 +92,34 @@ function Profile() {
 
                 if (!response.ok) {
                     throw new Error(`Response status: ${response.status}`);
-                }
+                }else{
+									alertStr += "Updated. ";
+								}
             }
+            if (password !== '') {
+                if (password !== repeatedPassword) {
+                    alert('Passwords are not matching');
+                    return;
+                }
+                user.password = password;
+								const res = await fetch("http://localhost:4200/request-password-reset", {
+									method: "POST",
+									credentials: 'include',
+									headers: { "Content-Type": "application/json" },
+									body: JSON.stringify({
+										email: data!.email,
+										newPassword: password
+									})
+								});
+								if (res.ok) {
+									alertStr += 'Check your email for a confirmation link. ';
+								} else {
+									alert("Failed to initiate password reset");
+									return;
+								}
+                
+            }
+
         } catch (error) {
             alert('Internal error');
         } finally {
@@ -122,7 +127,7 @@ function Profile() {
             setEmail('');
             setPassword('');
             setRepeatedPassword('');
-            alert('Updated');
+            alert(alertStr);
         }
     };
 

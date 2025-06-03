@@ -187,11 +187,11 @@ export async function deleteUser(req: Request, res: Response) {
 }
 
 export async function updateUser(req: Request, res: Response) {
-			if (!(await authUser(req.cookies.token))) {
-					res.status(401).json({ message: 'Error - unauthorized' });
-					return;
-			}
-  const id = req.params.id;
+	if (!(await authUser(req.cookies.token))) {
+			res.status(401).json({ message: 'Error - unauthorized' });
+			return;
+	}
+	const id = req.params.id;
   const query = req.body;
 
 	let strategy_id: ObjectId;
@@ -221,19 +221,20 @@ export async function updateUser(req: Request, res: Response) {
 }
 
 export async function requestPasswordReset(req: Request, res: Response){
-		if (!(await authUser(req.cookies.token))) {
+	if (!(await authUser(req.cookies.token))) {
 		res.status(401).json({ message: 'Error - unauthorized' });
 		return;
 	}
 
 	const { email, newPassword } = req.body;
-  const result = mongoClient.getItemById(email, table_name);
+  const result = mongoClient.getItemsByField({email: email}, table_name);
   let user: User;
   result.then((value) => {
 		if(value == null || value == undefined){
 			res.status(400).send("Error");
 			return false;
 		}
+		value = value[0];
     user = new User(
       value.login,
       value.email,
@@ -255,8 +256,7 @@ export async function requestPasswordReset(req: Request, res: Response){
 				resetPasswordSecret,
 				{ expiresIn: "15m" }
 			);
-
-			  const resetLink = `http://localhost:5173/verify-password-reset?token=${token}`;
+			  const resetLink = `http://localhost:5173/verify-password-reset/${token}`;
 				sendEmail(/*user.email*/ 'tomaszwiesek00@gmail.com', 'Reset your password', `<p>Click <a href='${resetLink}'>here</a> to confirm your password change.</p>`);
 				res.status(204).send("Verification email sent");
 
@@ -265,12 +265,11 @@ export async function requestPasswordReset(req: Request, res: Response){
 }
 
 export async function verifyPasswordReset(req: Request, res: Response): Promise<any> {
-	if (!(await authUser(req.cookies.token))) {
-		res.status(401).json({ message: 'Error - unauthorized' });
-		return;
-	}
+	console.log('start');
+	//TODO: tu
 
 	const token = req.params.token;
+	console.log('token: ', token);
 	if (!token || typeof token !== "string") {
     return res.status(400).send("Invalid token");
   }

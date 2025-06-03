@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from './VerifyPasswordReset.module.css';
-import { useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+
 
 function VerifyPasswordReset() {
-
+	const { token } = useParams();
 		useEffect(() => {
-			const params = new URLSearchParams(window.location.search);
-			const token = params.get("token");
-
 			if (token) {
-				fetch(`http://localhost:4200/verify-password-reset?token=${token}`)
+				fetch(`http://localhost:4200/verify-password-reset/${token}`)
 					.then(res => res.text())
 					.then(text => alert(text))
 					.catch(() => alert("Something went wrong"));
