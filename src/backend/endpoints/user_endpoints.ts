@@ -265,11 +265,7 @@ export async function requestPasswordReset(req: Request, res: Response){
 }
 
 export async function verifyPasswordReset(req: Request, res: Response): Promise<any> {
-	console.log('start');
-	//TODO: tu
-
 	const token = req.params.token;
-	console.log('token: ', token);
 	if (!token || typeof token !== "string") {
     return res.status(400).send("Invalid token");
   }
@@ -282,13 +278,13 @@ export async function verifyPasswordReset(req: Request, res: Response): Promise<
 			return res.status(400).send("No password reset pending");
 		}
 
-		await mongoClient.updateItemById(payload.userId, table_name, {
-			passwordHash: user.pendingPasswordHash,
+		const updateRes = await mongoClient.updateItemById(payload.userId, table_name, {
+			password: user.pendingPasswordHash,
 			pendingPasswordHash: ""
 		});
 
-		res.status(204).send("Password reset successful");
+		return res.status(200).send("Password reset successful");
 	} catch (err) {
-		res.status(400).send("Invalid or expired token");
+		return res.status(400).send("Invalid or expired token");
 	}
 }
