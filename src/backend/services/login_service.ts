@@ -86,3 +86,15 @@ export async function sendConfirmationEmail(id: ObjectId, email: string){
 
 	await sendEmail(email, 'Verify your account', `<p>Click <a href="http://localhost:5173/verify?token=${verificationToken}">here</a> to verify your account.</p>`);
 }
+
+export async function saveMFACode(userId: ObjectId, code: number){
+	const now = new Date();
+	const expDate = now.setMinutes(now.getMinutes() + 15);
+	const result = await mongoClient.insertItem({userId: ObjectId, code: code, expDate: expDate}, 'MFA_codes');
+	//TODO: usuwanie starego MFA
+	return result;
+}
+
+export function generateMFACode(){
+  return Math.floor(100000 + Math.random() * 900000);
+}
