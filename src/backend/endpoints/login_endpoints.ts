@@ -8,14 +8,19 @@ import path from 'path';
 import { User } from "../models/user_model";
 import * as mongoClient from '../mongodb/connection';
 import * as loginService from "../services/login_service";
+import {sendEmail} from "../services/email_service";
 import { authUser } from '../services/login_service';
 
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const verificationSecret = configJson.verificationSecret;
 
-export function getMFAForLogin(req: Request, res: Response){
+export async function getMFAForLogin(req: Request, res: Response){
+	const mfaCode = loginService.generateMFACode();
+	const userRes = await mongoClient.getItemsByField({"login": req.body.login}, 'users');
+	await loginService.saveMFACode(userRes[0]._id, mfaCode);
+	await sendEmail(userRes[0].email, 'Verify your login attempt', `<p>Your verification code is: ${mfaCode}</p>`);
 	
-	res.status(400).json({ message: "" });
+	res.status(200).json({ mfaRequired: true, userId: userRes[0]._id });
 }
 
 
