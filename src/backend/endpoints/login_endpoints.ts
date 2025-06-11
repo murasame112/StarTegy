@@ -13,6 +13,11 @@ import { authUser } from '../services/login_service';
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const verificationSecret = configJson.verificationSecret;
 
+export function getMFAForLogin(req: Request, res: Response){
+	
+	res.status(400).json({ message: "" });
+}
+
 
 export function logUserIn(req: Request, res: Response) {
   const result = loginService.login(req.body.login, req.body.password);
@@ -39,8 +44,6 @@ export function logUserIn(req: Request, res: Response) {
   		res.status(400).json({ message: "Incorrect login or password" });
 		}
   });
-	
-
 }
 
 export function logout(req: Request, res: Response) {
