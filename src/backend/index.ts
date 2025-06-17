@@ -57,9 +57,9 @@ app.get("/verify-password-reset/:token", userEndpoints.verifyPasswordReset);
 
 app.get("/check-auth", loginEndpoints.checkAuth);
 app.post("/login", loginLimiter, loginEndpoints.logUserIn);
-app.post("/mfa-login", loginEndpoints.getMFAForLogin);
 app.post("/logout", loginEndpoints.logout);
 app.get("/me", loginEndpoints.me);
 app.get("/verify", loginEndpoints.verifyUser);
+app.post("/verify-mfa", loginEndpoints.verifyMFA);
 
 app.listen(4200);

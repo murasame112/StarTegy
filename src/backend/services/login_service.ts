@@ -31,7 +31,7 @@ export function verifyPassword(password: string, hash: string){
 	return passwordHash.verify(password, hash)
 }
 
-export async function login(login: string, password: string) {
+export async function login(login: string, password: string): Promise<number | boolean | User> {
 	const result = await mongoClient.getItemsByField({"login": login}, 'users');
 	const user: User | undefined = result[0];
 	if(user == undefined){
@@ -48,13 +48,14 @@ export async function login(login: string, password: string) {
   	return 403;
 	}
 
+	return user;
 
-	const createdPayload = {
-		"login": login,
-		"id": user._id
-	}
-	let token = jwt.sign(createdPayload, secret);
-	return token;
+	// const createdPayload = {
+	// 	"login": login,
+	// 	"id": user._id
+	// }
+	// let token = jwt.sign(createdPayload, secret);
+	// return token;
 
 }
 
@@ -87,11 +88,12 @@ export async function sendConfirmationEmail(id: ObjectId, email: string){
 	await sendEmail(email, 'Verify your account', `<p>Click <a href="http://localhost:5173/verify?token=${verificationToken}">here</a> to verify your account.</p>`);
 }
 
-export async function saveMFACode(userId: ObjectId, code: number){
+export async function saveMFACode(userId: ObjectId, code: number, email: string){
 	const now = new Date();
 	const expDate = now.setMinutes(now.getMinutes() + 15);
 	const result = await mongoClient.insertItem({userId: ObjectId, code: code, expDate: expDate}, 'MFA_codes');
 	//TODO: usuwanie starego MFA
+	await sendEmail(email, 'Your verification code', `<p>Your verification code is: ${code}</p>`);
 	return result;
 }
 

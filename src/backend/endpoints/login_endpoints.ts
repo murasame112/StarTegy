@@ -14,41 +14,44 @@ import { authUser } from '../services/login_service';
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const verificationSecret = configJson.verificationSecret;
 
-export async function getMFAForLogin(req: Request, res: Response){
-	const mfaCode = loginService.generateMFACode();
-	const userRes = await mongoClient.getItemsByField({"login": req.body.login}, 'users');
-	await loginService.saveMFACode(userRes[0]._id, mfaCode);
-	await sendEmail(userRes[0].email, 'Verify your login attempt', `<p>Your verification code is: ${mfaCode}</p>`);
+
+export async function logUserIn(req: Request, res: Response) {
+  const result = await loginService.login(req.body.login, req.body.password);
+
+  if (result === false) {
+   	res.status(400).send( "Incorrect login or password" );
+		 return;
+  }
 	
-	res.status(200).json({ mfaRequired: true, userId: userRes[0]._id });
-}
-
-
-export function logUserIn(req: Request, res: Response) {
-  const result = loginService.login(req.body.login, req.body.password);
-	result.then((value) => {
-		if(value){
-			 if(typeof value === 'number'){
-				switch(value){
-					case 403:
-						res.status(value).json({ message: "Please verify your email before logging in." });
-						break;
-					default:
-						res.status(value).json({ message: "Incorrect login or password" });
-				}
-				return;
-			 }
-			const token = value;
-			res.cookie('token', token, {
-				httpOnly: true,
-				sameSite: 'lax',
-				secure: false
-			});
-			res.json({ message: 'Logged in'});
-		} else {
-  		res.status(400).json({ message: "Incorrect login or password" });
-		}
-  });
+	if(typeof result === 'number'){
+			switch(result){
+				case 403:
+					res.status(result).send("Please verify your email before logging in.");
+					return;
+				default:
+					res.status(result).send("Incorrect login or password");
+					return;
+			}
+	}
+	
+	if(typeof result !== 'number' && typeof result !== 'boolean' && result){
+		const user: User = result;
+		const mfaCode = loginService.generateMFACode();
+		await loginService.saveMFACode(user._id!, mfaCode, /*TODO: user.email*/'tomaszwiesek00@gmail.com');
+		res.status(200).json({ requiresMFA: true, userId: user._id });
+		return;
+	}
+	res.status(400).send( "Internal error" );
+	return;
+		
+  	
+	// const token = result;
+	// 	res.cookie('token', token, {
+	// 		httpOnly: true,
+	// 		sameSite: 'lax',
+	// 		secure: false
+	// 	});
+	// 	res.json({ message: 'Logged in'});
 }
 
 export function logout(req: Request, res: Response) {
@@ -100,4 +103,10 @@ export async function verifyUser(req: Request, res: Response): Promise<any> {
     res.status(400).send('Invalid or expired token');
   }
 
+}
+
+export async function verifyMFA(req: Request, res: Response) {
+	//TODO: implementacja
+	res.status(200).json({ message: "MFA verified" });
+	return;
 }

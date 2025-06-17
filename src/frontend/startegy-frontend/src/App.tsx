@@ -8,6 +8,7 @@ import Registration from './components/Registration/Registration';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Profile from './components/Profile/Profile';
+import MFAPage from './components/MFAPage/MFAPage';
 import stylesBlank from './components/Blank/Blank.module.css';
 import {
     BrowserRouter as Router,
@@ -44,6 +45,7 @@ function App() {
                     <Route path='/profile' element={<Profile/>}></Route>
 										<Route path='/login' element={<Login/>}></Route>
 										<Route path='/registration' element={<Registration/>}></Route>
+										<Route path='/authenticate' element={<MFAPage/>}></Route>
 										<Route path='/verify-password-reset/:token' element={<VerifyPasswordReset/>}></Route>
                     <Route
                         path='*'
