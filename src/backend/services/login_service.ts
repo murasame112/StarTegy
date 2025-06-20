@@ -85,7 +85,7 @@ export async function saveMFACode(userId: ObjectId, code: number, email: string)
 	const now = new Date();
 	const expDate = now.setMinutes(now.getMinutes() + 15);
 	const result = await mongoClient.insertItem({userId: userId, code: code, expDate: expDate}, 'MFA_codes');
-	//TODO: usuwanie starego MFA
+
 	await sendEmail(email, 'Your verification code', `<p>Your verification code is: ${code}</p>`);
 	return result;
 }
@@ -98,9 +98,23 @@ export async function compareMFA(id: any, code: any){//TODO: to nie powinno byc 
  	let query = { ['userId']: new ObjectId(id) };
 
 	const result = await mongoClient.getItemsByField(query, 'MFA_codes');
-	
+
 	if (code == result[0].code){
+		deleteMFA(id);
 		return true;
 	}
 	return false;
+}
+
+export async function deleteMFA(userId: any){
+	if(!userId){
+		return;
+	}
+	let query = { ['userId']: new ObjectId(userId) };
+
+	const getResult = await mongoClient.getItemsByField(query, 'MFA_codes');
+	if(!getResult[0]){
+		return;
+	}
+	await mongoClient.deleteItemById(new ObjectId(getResult[0]._id), 'MFA_codes');
 }

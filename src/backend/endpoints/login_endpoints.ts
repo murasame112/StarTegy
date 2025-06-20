@@ -61,15 +61,17 @@ export async function verifyMFA(req: Request, res: Response) {
     res.status(400).json({ message: "Missing userId or code" });
 		return;
   }
-	try {
-    const checkMFA = await loginService.compareMFA(userId, code); //TODO: implementacja, niech zwraca true/false
 
+	try {
+    const checkMFA = await loginService.compareMFA(userId, code);
+		
     if (!checkMFA) {
        res.status(401).json({ message: "Invalid MFA code" });
 			 return;
     }
+		
 
-		//await loginService.deleteMFA(userId);//TODO: implementacja
+		
 
     const user = await mongoClient.getItemById(userId, 'users');
     const payload = { login: user!.login, id: user!._id };
@@ -80,7 +82,7 @@ export async function verifyMFA(req: Request, res: Response) {
       sameSite: "lax",
       secure: false, // TODO: zmienic na true w produkcji
     });
-
+		loginService.deleteMFA(userId);
     res.status(200).json({ message: "MFA verified" });
 		return;
   } catch (error) {
