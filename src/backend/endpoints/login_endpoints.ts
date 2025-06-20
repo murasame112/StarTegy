@@ -13,7 +13,7 @@ import { authUser } from '../services/login_service';
 
 const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
 const verificationSecret = configJson.verificationSecret;
-
+const secret = configJson.secret;
 
 export async function logUserIn(req: Request, res: Response) {
   const result = await loginService.login(req.body.login, req.body.password);
@@ -52,6 +52,41 @@ export async function logUserIn(req: Request, res: Response) {
 	// 		secure: false
 	// 	});
 	// 	res.json({ message: 'Logged in'});
+}
+
+
+export async function verifyMFA(req: Request, res: Response) {
+	const { userId, code } = req.body;
+	if (!userId || !code) {
+    res.status(400).json({ message: "Missing userId or code" });
+		return;
+  }
+	try {
+    const checkMFA = await loginService.compareMFA(userId, code); //TODO: implementacja, niech zwraca true/false
+
+    if (!checkMFA) {
+       res.status(401).json({ message: "Invalid MFA code" });
+			 return;
+    }
+
+		//await loginService.deleteMFA(userId);//TODO: implementacja
+
+    const user = await mongoClient.getItemById(userId, 'users');
+    const payload = { login: user!.login, id: user!._id };
+    const token = jwt.sign(payload, secret);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false, // TODO: zmienic na true w produkcji
+    });
+
+    res.status(200).json({ message: "MFA verified" });
+		return;
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+		return;
+  }
 }
 
 export function logout(req: Request, res: Response) {
@@ -105,8 +140,3 @@ export async function verifyUser(req: Request, res: Response): Promise<any> {
 
 }
 
-export async function verifyMFA(req: Request, res: Response) {
-	//TODO: implementacja
-	res.status(200).json({ message: "MFA verified" });
-	return;
-}

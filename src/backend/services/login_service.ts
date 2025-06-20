@@ -50,13 +50,6 @@ export async function login(login: string, password: string): Promise<number | b
 
 	return user;
 
-	// const createdPayload = {
-	// 	"login": login,
-	// 	"id": user._id
-	// }
-	// let token = jwt.sign(createdPayload, secret);
-	// return token;
-
 }
 
 type MyPayload = {
@@ -91,7 +84,7 @@ export async function sendConfirmationEmail(id: ObjectId, email: string){
 export async function saveMFACode(userId: ObjectId, code: number, email: string){
 	const now = new Date();
 	const expDate = now.setMinutes(now.getMinutes() + 15);
-	const result = await mongoClient.insertItem({userId: ObjectId, code: code, expDate: expDate}, 'MFA_codes');
+	const result = await mongoClient.insertItem({userId: userId, code: code, expDate: expDate}, 'MFA_codes');
 	//TODO: usuwanie starego MFA
 	await sendEmail(email, 'Your verification code', `<p>Your verification code is: ${code}</p>`);
 	return result;
@@ -99,4 +92,15 @@ export async function saveMFACode(userId: ObjectId, code: number, email: string)
 
 export function generateMFACode(){
   return Math.floor(100000 + Math.random() * 900000);
+}
+
+export async function compareMFA(id: any, code: any){//TODO: to nie powinno byc 'any'
+ 	let query = { ['userId']: new ObjectId(id) };
+
+	const result = await mongoClient.getItemsByField(query, 'MFA_codes');
+	
+	if (code == result[0].code){
+		return true;
+	}
+	return false;
 }
