@@ -47,6 +47,7 @@ function App() {
 										<Route path='/registration' element={<Registration/>}></Route>
 										<Route path='/authenticate' element={<MFAPage/>}></Route>
 										<Route path='/verify-password-reset/:token' element={<VerifyPasswordReset/>}></Route>
+										<Route path='/verify' element={<VerifyPage/>}></Route>
                     <Route
                         path='*'
                         element={<Navigate to='/' replace />}
