@@ -152,7 +152,7 @@ export async function insertUser(req: Request, res: Response) {
 		
 		
 		result.then((value) => {
-			loginService.sendConfirmationEmail(value!.insertedId, /*TODO: req.body.email*/'tomaszwiesek00@gmail.com');
+			loginService.sendConfirmationEmail(value!.insertedId, req.body.email);
 			if(value == null || value == undefined){
 				res.status(400).send("Error");
 				return false;
@@ -209,7 +209,7 @@ export async function updateUser(req: Request, res: Response) {
 		query.password = query.password;
 	}
 	
-	//query.created = global.createDateFromString(query.created); //TODO: co z data?
+	//query.created = global.createDateFromString(query.created); 
   const result = mongoClient.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
@@ -257,7 +257,7 @@ export async function requestPasswordReset(req: Request, res: Response){
 				{ expiresIn: "15m" }
 			);
 			  const resetLink = `http://localhost:5173/verify-password-reset/${token}`;
-				sendEmail(/*user.email*/ 'tomaszwiesek00@gmail.com', 'Reset your password', `<p>Click <a href='${resetLink}'>here</a> to confirm your password change.</p>`);
+				sendEmail(user.email, 'Reset your password', `<p>Click <a href='${resetLink}'>here</a> to confirm your password change.</p>`);
 				res.status(204).send("Verification email sent");
 
 		});

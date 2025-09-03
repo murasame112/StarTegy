@@ -126,7 +126,7 @@ function StratNewFormContent(props: FormData) {
             title: props.title,
             matchup: [props.matchup],
             author: props.author,
-            uploaded_by: 'current_user', //TODO: tu current usera powinno pobierac
+            uploaded_by: 'current_user',
             type: props.type,
             build_type: props.buildType,
             tags: [],

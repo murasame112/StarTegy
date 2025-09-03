@@ -98,7 +98,7 @@ function StratSingle() {
     };
 
     const saveStrategy = () => {
-        console.log('save'); //TODO:
+        console.log('save');
     };
 
     if (data) {

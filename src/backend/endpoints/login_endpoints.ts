@@ -37,7 +37,7 @@ export async function logUserIn(req: Request, res: Response) {
 	if(typeof result !== 'number' && typeof result !== 'boolean' && result){
 		const user: User = result;
 		const mfaCode = loginService.generateMFACode();
-		await loginService.saveMFACode(user._id!, mfaCode, /*TODO: user.email*/'tomaszwiesek00@gmail.com');
+		await loginService.saveMFACode(user._id!, mfaCode, user.email);
 		res.status(200).json({ requiresMFA: true, userId: user._id });
 		return;
 	}
@@ -80,8 +80,9 @@ export async function verifyMFA(req: Request, res: Response) {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false, // TODO: zmienic na true w produkcji
+      secure: true,
     });
+		
 		loginService.deleteMFA(userId);
     res.status(200).json({ message: "MFA verified" });
 		return;

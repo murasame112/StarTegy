@@ -35,12 +35,12 @@ export async function login(login: string, password: string): Promise<number | b
 	const result = await mongoClient.getItemsByField({"login": login}, 'users');
 	const user: User | undefined = result[0];
 	if(user == undefined){
-		//TODO: blad w logowaniu
+
 		return false;
 	}
 
 	if (!verifyPassword(password, user.password)){
-		//TODO: blad w logowaniu
+
 		return false;
 	}
 	
@@ -94,7 +94,7 @@ export function generateMFACode(){
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-export async function compareMFA(id: any, code: any){//TODO: to nie powinno byc 'any'
+export async function compareMFA(id: any, code: any){
  	let query = { ['userId']: new ObjectId(id) };
 
 	const result = await mongoClient.getItemsByField(query, 'MFA_codes');
