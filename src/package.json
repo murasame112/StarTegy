@@ -1,7 +1,8 @@
 {
 	"scripts": {
 		"start": "npx nodemon ./backend/index.ts",
-		"dev": "concurrently \"npm start\" \"cd frontend/startegy-frontend && npm run dev\""
+		"dev": "concurrently \"npm start\" \"cd frontend/startegy-frontend && npm run dev\"",
+		"install:all": "npm install --prefix src/backend && npm install --prefix src/frontend/startegy-frontend"
 	},
 	"dependencies": {
 		"@types/cookie-parser": "^1.4.8",
