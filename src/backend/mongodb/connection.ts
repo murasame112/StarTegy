@@ -1,10 +1,7 @@
 import { ObjectId } from 'bson';
 import { MongoClient, ServerApiVersion, Collection } from 'mongodb';
-import fs from 'fs';
-import path from 'path';
-
-const configJson =  JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
-const uri = configJson.connectionString;
+import { connectionString } from '../config';
+const uri = connectionString;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {

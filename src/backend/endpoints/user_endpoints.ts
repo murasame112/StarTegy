@@ -10,12 +10,9 @@ import * as loginService from "../services/login_service";
 import * as mongoClient from '../mongodb/connection';
 import { authUser } from '../services/login_service';
 import { sendEmail } from '../services/email_service';
+import { resetPasswordSecret } from "../config";
 
 const table_name = "users";
-
-
-const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
-const resetPasswordSecret = configJson.resetPasswordSecret;
 
 export async function getAllUsers(req: Request, res: Response) {
 	if (!(await authUser(req.cookies.token))) {

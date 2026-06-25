@@ -10,10 +10,7 @@ import * as mongoClient from '../mongodb/connection';
 import * as loginService from "../services/login_service";
 import {sendEmail} from "../services/email_service";
 import { authUser } from '../services/login_service';
-
-const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
-const verificationSecret = configJson.verificationSecret;
-const secret = configJson.secret;
+import { verificationSecret, secret } from "../config";
 
 export async function logUserIn(req: Request, res: Response) {
   const result = await loginService.login(req.body.login, req.body.password);

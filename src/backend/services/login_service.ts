@@ -1,19 +1,10 @@
 import jwt from 'jsonwebtoken';
 import passwordHash from 'password-hash';
 import { User } from "../models/user_model";
-import fs from 'fs';
-import path from 'path';
 import * as mongoClient from '../mongodb/connection';
 import { ObjectId } from 'mongodb';
-import { Resend } from 'resend';
 import { sendEmail } from './email_service';
-
-const configJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..','/config.json'), 'utf8'));
-const secret = configJson.secret;
-const resendApi = configJson.resend;
-const verificationSecret = configJson.verificationSecret;
-const resend = new Resend(resendApi);
-const domainEmail = configJson.domainEmail;
+import { verificationSecret, secret } from '../config';
 
 export async function checkIfUserExists(userEmail: string, userLogin: string){
 	const result = await mongoClient.getItemsByField({"email": userEmail, "login": userLogin}, 'users');

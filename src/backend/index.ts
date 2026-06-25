@@ -1,4 +1,5 @@
 import { Console } from 'console';
+import dotenv from 'dotenv';
 import express from 'express';
 import { Request, Response } from 'express';
 import * as mongoClient from "./mongodb/connection"
@@ -6,14 +7,10 @@ import * as strategyEndpoints from "./endpoints/strategy_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
 import * as loginEndpoints from "./endpoints/login_endpoints";
 import cors from 'cors';
-import fs from 'fs';
-import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import { Resend } from 'resend';
 import rateLimit from 'express-rate-limit';
-
-const configJson =  JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
-export const connectionString = configJson.connectionString;
+import './config';
 
 const app = express();
 
