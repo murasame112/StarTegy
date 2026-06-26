@@ -138,6 +138,13 @@ The project follows a separated frontend/backend architecture.
 - Structured application into separate frontend and backend projects.
 
 ---
+## Demo
+
+Watch a short demonstration of the application:
+
+https://youtu.be/imdEWumJTJg
+
+---
 ## Author
 
 Built by Tomasz Więsek
