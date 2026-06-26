@@ -1,0 +1,4 @@
+.verifyButton:hover {
+	cursor: pointer;
+	background-color: var(--green);
+}

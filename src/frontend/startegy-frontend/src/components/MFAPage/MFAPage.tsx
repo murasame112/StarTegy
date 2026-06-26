@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/auth-context';
 import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './MFAPage.module.css';
 
 interface LocationState {
     userId: string;
@@ -56,7 +57,7 @@ export default function MFAPage() {
                 onChange={(e) => setCode(e.target.value)}
                 placeholder='Enter MFA code'
             />
-            <button onClick={handleVerify}>Verify</button>
+            <button onClick={handleVerify} className={styles.verifyButton}>Verify</button>
         </div>
     );
 }
